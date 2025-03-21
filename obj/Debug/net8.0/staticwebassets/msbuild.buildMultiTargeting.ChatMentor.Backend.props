@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\ChatMentor.Backend.props" />
+</Project>
