@@ -1,4 +1,6 @@
-﻿namespace ChatMentor.Backend.Responses;
+﻿using System.Text.Json.Serialization;
+
+namespace ChatMentor.Backend.Responses;
 
 public class JSendResponse<T>
 {
@@ -11,23 +13,25 @@ public class JSendResponse<T>
     }
 
     public string Status { get; set; }
-    public T Data { get; set; }
+    public T? Data { get; set; }
     public string? Message { get; set; }
+    
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PaginationMeta? Meta { get; set; }
 
     public static JSendResponse<T> Success(T data, string? message = null, PaginationMeta? meta = null)
     {
-        return new JSendResponse<T>("success", data, message, meta);
+        return new JSendResponse<T>("Success", data, message, meta);
     }
 
-    public static JSendResponse<T> Fail(T data)
+    public static JSendResponse<T> Fail(T? data, string? message = null)
     {
-        return new JSendResponse<T>("fail", data);
+        return new JSendResponse<T>("Fail", data, message);
     }
 
-    public static JSendResponse<T> Error(string? message)
+    public static JSendResponse<T?> Error(string? message)
     {
-        return new JSendResponse<T>("error", default, message);
+        return new JSendResponse<T?>("Error", default, message);
     }
 }
 

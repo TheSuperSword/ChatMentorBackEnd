@@ -4,7 +4,10 @@ using ChatMentor.Backend.Core.Repositories;
 using ChatMentor.Backend.Core.Services;
 using ChatMentor.Backend.Data;
 using ChatMentor.Backend.DbContext;
+using ChatMentor.Backend.Handler;
+using ChatMentor.Backend.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -78,14 +81,15 @@ try
             options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Token"] ??
-                    throw new InvalidOperationException())),
-                ValidateIssuer = false,
-                ValidateAudience = false,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"] 
+                    ?? throw new InvalidOperationException())),
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                ValidAudience = builder.Configuration["Jwt:Audience"],
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero
             };
-            options.Authority = "Authority URL";
         });
 
     builder.Services.AddAuthorizationBuilder().AddPolicy("Admin", policy => policy.RequireRole("ADMIN"))
@@ -121,7 +125,14 @@ try
         });
     });
     // Add Services
+    builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+    builder.Services.AddProblemDetails();
+    builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
     builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
+
+    builder.Services.AddScoped<DocumentService>();
+    builder.Services.AddScoped<AuthService>();
     builder.Services.AddScoped<UserService>();
     builder.Services.AddScoped<TokenService>();
 
@@ -148,11 +159,12 @@ try
         app.UseSwagger();
         app.UseSwaggerUI();
     }
-
-    app.UseAuthentication();
-
+    //app.UseExceptionHandler();
+    
     app.UseRouting();
-
+    
+    app.UseAuthentication();
+    
     app.UseAuthorization();
 
     //app.MapHub<ChatHub>("/hubs/chat");
@@ -160,9 +172,7 @@ try
     app.UseHttpsRedirection();
 
     app.MapControllers();
-
-    app.Run();
-
+    
     app.Run();
 }
 catch (Exception ex)

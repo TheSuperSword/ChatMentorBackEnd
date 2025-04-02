@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{DAEB9790-1BA4-49C4-AFB7-9928A232C6AE}|ChatMentor.Backend.csproj|c:\\users\\cheng\\source\\repos\\chatmentor.backend\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DAEB9790-1BA4-49C4-AFB7-9928A232C6AE}|ChatMentor.Backend.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{DAEB9790-1BA4-49C4-AFB7-9928A232C6AE}|ChatMentor.Backend.csproj|c:\\users\\cheng\\source\\repos\\chatmentor.backend\\qodana.yaml||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{DAEB9790-1BA4-49C4-AFB7-9928A232C6AE}|ChatMentor.Backend.csproj|solutionrelative:qodana.yaml||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
@@ -46,6 +50,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\Controllers\\UserController.cs",
+              "RelativeToolTip": "Controllers\\UserController.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-25T15:42:08.552Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "qodana.yaml",
               "DocumentMoniker": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\qodana.yaml",
               "RelativeDocumentMoniker": "qodana.yaml",
@@ -58,7 +75,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\Model\\User.cs",
               "RelativeDocumentMoniker": "Model\\User.cs",
@@ -66,12 +83,11 @@
               "RelativeToolTip": "Model\\User.cs",
               "ViewState": "AgIAADQAAAAAAAAAAAAUwAYAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-18T14:57:39.948Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-18T14:57:39.948Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "JSendResponse.cs",
               "DocumentMoniker": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\Responses\\JSendResponse.cs",
               "RelativeDocumentMoniker": "Responses\\JSendResponse.cs",
@@ -79,12 +95,11 @@
               "RelativeToolTip": "Responses\\JSendResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-18T14:56:38.27Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-18T14:56:38.27Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\cheng\\AppData\\Local\\Temp\\.vsdbgsrc\\b8f67bde3ddbeda2e4af44b6d2bc19c182f5820f0c276a2045b8e79cccda2d97\\Program.cs",
               "RelativeDocumentMoniker": "..\\..\\..\\AppData\\Local\\Temp\\.vsdbgsrc\\b8f67bde3ddbeda2e4af44b6d2bc19c182f5820f0c276a2045b8e79cccda2d97\\Program.cs",
@@ -92,12 +107,11 @@
               "RelativeToolTip": "..\\..\\..\\AppData\\Local\\Temp\\.vsdbgsrc\\b8f67bde3ddbeda2e4af44b6d2bc19c182f5820f0c276a2045b8e79cccda2d97\\Program.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAH0AAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-16T16:15:23.16Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-16T16:15:23.16Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -109,7 +123,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "WeatherForecast.cs",
               "DocumentMoniker": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\WeatherForecast.cs",
               "RelativeDocumentMoniker": "WeatherForecast.cs",
@@ -121,7 +135,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "nlog.config",
               "DocumentMoniker": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\nlog.config",
               "RelativeDocumentMoniker": "nlog.config",
@@ -133,7 +147,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",

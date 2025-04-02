@@ -17,7 +17,8 @@ namespace ChatMentor.Backend.Data
                         LastName = "Doe",
                         Email = "alice@example.com",
                         PasswordHash = "hashedpassword123",
-                        Role = "Student",
+                        Role = UserRole.Student,
+                        ProfilePictureUrl = "https://ui-avatars.com/api/?name=Alice+Doe&size=200\n",
                         Status = AccountStatus.Active
                     },
                     new User()
@@ -26,7 +27,8 @@ namespace ChatMentor.Backend.Data
                         LastName = "Smith",
                         Email = "bob@example.com",
                         PasswordHash = "hashedpassword456",
-                        Role = "Mentor",
+                        Role = UserRole.Mentor,
+                        ProfilePictureUrl = "https://ui-avatars.com/api/?name=Dr.Bob+Smith&size=200\n",
                         Status = AccountStatus.Active
                     }
                 };

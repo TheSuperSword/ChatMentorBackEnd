@@ -1,7 +1,5 @@
 ﻿using ChatMentor.Backend.Model;
 using ChatMentor.Backend.DTOs;
-using ChatMentor.Backend.AuthModel;
-using ChatMentor.Backend.PassChange;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChatMentor.Backend.DbContext
@@ -16,6 +14,7 @@ namespace ChatMentor.Backend.DbContext
         public virtual DbSet<User> TblUser { get; set; }
         public virtual DbSet<Tag> TblTag { get; set; }
         public virtual DbSet<UserTag> TblUserTag { get; set; }
+        public virtual DbSet<Document> TblDocument { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,31 +34,5 @@ namespace ChatMentor.Backend.DbContext
                 .OnDelete(DeleteBehavior.Cascade);  // If Tag is deleted, delete related UserTags
         }
 
-    }
-}
-
-namespace ChatMentor.Backend.AuthDbContext
-{
-    public partial class AuthDbContext : Microsoft.EntityFrameworkCore.DbContext
-    {
-        public AuthDbContext(DbContextOptions<AuthDbContext> options)
-            : base(options)
-        {
-        }
-
-        public virtual DbSet<AuthRequest> Tbl_auth_requests { get; set; }
-    }
-}
-
-namespace ChatMentor.Backend.PassDbContext // ✅ Fixed duplicate namespace
-{
-    public partial class PassDbContext : Microsoft.EntityFrameworkCore.DbContext
-    {
-        public PassDbContext(DbContextOptions<PassDbContext> options) // ✅ Corrected options type
-            : base(options)
-        {
-        }
-
-        public virtual DbSet<PasswordChangeRequest> Tbl_password_changes { get; set; } // ✅ Unique table name
     }
 }
