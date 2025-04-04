@@ -1,5 +1,5 @@
 ﻿using ChatMentor.Backend.Core.Interfaces;
-using ChatMentor.Backend.DbContext;
+using ChatMentor.Backend.Data;
 using ChatMentor.Backend.Model;
 using Microsoft.EntityFrameworkCore;
 

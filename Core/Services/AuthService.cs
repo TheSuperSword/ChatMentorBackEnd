@@ -98,7 +98,7 @@ public class AuthService
         if (!BCrypt.Net.BCrypt.Verify(password, user.PasswordHash)) return null;
 
         // Use TokenService to generate JWT
-        var token = _tokenService.GenerateToken(user.Id.ToString(), user.FirstName + user.LastName, user.Role.ToString());
+        var token = _tokenService.GenerateToken(user.UserId.ToString(), user.FirstName + user.LastName, user.Role.ToString());
 
         // Create response DTO
         return new LoginResponseDto

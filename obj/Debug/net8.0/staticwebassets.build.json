@@ -1,20 +1,12 @@
 {
   "Version": 1,
-  "Hash": "b8xmPQM0j/JbliKnWgF2v2Jv/n/9OKCRKet+9HzE1/Y=",
+  "Hash": "wuoDYtc4H28CziTfjPB+zxs+4P22HbHKOlsT/hWAioc=",
   "Source": "ChatMentor.Backend",
   "BasePath": "_content/ChatMentor.Backend",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [
-    {
-      "Name": "ChatMentor.Backend\\wwwroot",
-      "Source": "ChatMentor.Backend",
-      "ContentRoot": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\wwwroot\\",
-      "BasePath": "_content/ChatMentor.Backend",
-      "Pattern": "**"
-    }
-  ],
+  "DiscoveryPatterns": [],
   "Assets": [
     {
       "Identity": "C:\\Users\\cheng\\.nuget\\packages\\microsoft.aspnetcore.components.quickgrid\\8.0.14\\staticwebassets\\Microsoft.AspNetCore.Components.QuickGrid.bundle.scp.css",
@@ -59,10 +51,10 @@
       "OriginalItemSpec": "C:\\Users\\cheng\\.nuget\\packages\\microsoft.aspnetcore.components.quickgrid\\8.0.14\\staticwebassets\\QuickGrid.razor.js"
     },
     {
-      "Identity": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\obj\\Debug\\net8.0\\scopedcss\\bundle\\ChatMentor.Backend.styles.css",
+      "Identity": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor\\obj\\Debug\\net8.0\\scopedcss\\bundle\\ChatMentor.Backend.styles.css",
       "SourceId": "ChatMentor.Backend",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
+      "ContentRoot": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
       "BasePath": "_content/ChatMentor.Backend",
       "RelativePath": "ChatMentor.Backend#[.{fingerprint}]?.styles.css",
       "AssetKind": "All",
@@ -77,28 +69,7 @@
       "Integrity": "yJzMRujk3CbSbBe5hogvoEpcGbz0ThnTl058XcI1svI=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\obj\\Debug\\net8.0\\scopedcss\\bundle\\ChatMentor.Backend.styles.css"
-    },
-    {
-      "Identity": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\wwwroot\\uploads\\profile_pics\\385cdd47-9256-4fce-b9c4-72028403a048_360_F_406924594_patrhQjU7byFasNnc8499EH7lzG48Hln.jpg",
-      "SourceId": "ChatMentor.Backend",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\wwwroot\\",
-      "BasePath": "_content/ChatMentor.Backend",
-      "RelativePath": "uploads/profile_pics/385cdd47-9256-4fce-b9c4-72028403a048_360_F_406924594_patrhQjU7byFasNnc8499EH7lzG48Hln#[.{fingerprint}]?.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "3ci6vqkiw5",
-      "Integrity": "rXb6HpAQ1pvgcCVn607FP90WKsluWiU6/g4EqM9IFAo=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\uploads\\profile_pics\\385cdd47-9256-4fce-b9c4-72028403a048_360_F_406924594_patrhQjU7byFasNnc8499EH7lzG48Hln.jpg"
+      "OriginalItemSpec": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor\\obj\\Debug\\net8.0\\scopedcss\\bundle\\ChatMentor.Backend.styles.css"
     }
   ],
   "Endpoints": [
@@ -178,7 +149,7 @@
     },
     {
       "Route": "ChatMentor.Backend.02jfxhbwsz.styles.css",
-      "AssetFile": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\obj\\Debug\\net8.0\\scopedcss\\bundle\\ChatMentor.Backend.styles.css",
+      "AssetFile": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor\\obj\\Debug\\net8.0\\scopedcss\\bundle\\ChatMentor.Backend.styles.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -203,7 +174,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 16 Mar 2025 14:52:52 GMT"
+          "Value": "Wed, 02 Apr 2025 23:42:06 GMT"
         },
         {
           "Name": "Link",
@@ -227,7 +198,7 @@
     },
     {
       "Route": "ChatMentor.Backend.styles.css",
-      "AssetFile": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\obj\\Debug\\net8.0\\scopedcss\\bundle\\ChatMentor.Backend.styles.css",
+      "AssetFile": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor\\obj\\Debug\\net8.0\\scopedcss\\bundle\\ChatMentor.Backend.styles.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -252,7 +223,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 16 Mar 2025 14:52:52 GMT"
+          "Value": "Wed, 02 Apr 2025 23:42:06 GMT"
         },
         {
           "Name": "Link",
@@ -263,88 +234,6 @@
         {
           "Name": "integrity",
           "Value": "sha256-yJzMRujk3CbSbBe5hogvoEpcGbz0ThnTl058XcI1svI="
-        }
-      ]
-    },
-    {
-      "Route": "uploads/profile_pics/385cdd47-9256-4fce-b9c4-72028403a048_360_F_406924594_patrhQjU7byFasNnc8499EH7lzG48Hln.3ci6vqkiw5.jpg",
-      "AssetFile": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\wwwroot\\uploads\\profile_pics\\385cdd47-9256-4fce-b9c4-72028403a048_360_F_406924594_patrhQjU7byFasNnc8499EH7lzG48Hln.jpg",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "45458"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"rXb6HpAQ1pvgcCVn607FP90WKsluWiU6/g4EqM9IFAo=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Sat, 29 Mar 2025 07:25:45 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "3ci6vqkiw5"
-        },
-        {
-          "Name": "label",
-          "Value": "uploads/profile_pics/385cdd47-9256-4fce-b9c4-72028403a048_360_F_406924594_patrhQjU7byFasNnc8499EH7lzG48Hln.jpg"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-rXb6HpAQ1pvgcCVn607FP90WKsluWiU6/g4EqM9IFAo="
-        }
-      ]
-    },
-    {
-      "Route": "uploads/profile_pics/385cdd47-9256-4fce-b9c4-72028403a048_360_F_406924594_patrhQjU7byFasNnc8499EH7lzG48Hln.jpg",
-      "AssetFile": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\wwwroot\\uploads\\profile_pics\\385cdd47-9256-4fce-b9c4-72028403a048_360_F_406924594_patrhQjU7byFasNnc8499EH7lzG48Hln.jpg",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "45458"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"rXb6HpAQ1pvgcCVn607FP90WKsluWiU6/g4EqM9IFAo=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Sat, 29 Mar 2025 07:25:45 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-rXb6HpAQ1pvgcCVn607FP90WKsluWiU6/g4EqM9IFAo="
         }
       ]
     }

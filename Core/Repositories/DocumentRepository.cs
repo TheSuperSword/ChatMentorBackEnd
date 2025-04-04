@@ -1,5 +1,5 @@
 ﻿using ChatMentor.Backend.Core.Interfaces;
-using ChatMentor.Backend.DbContext;
+using ChatMentor.Backend.Data;
 using ChatMentor.Backend.Model;
 using Microsoft.EntityFrameworkCore;
 
@@ -44,8 +44,8 @@ namespace ChatMentor.Backend.Core.Repositories
 
             existingDocument.FileName = updatedDocument.FileName;
             existingDocument.FilePath = updatedDocument.FilePath;
-            existingDocument.LastModifiedBy = updatedDocument.LastModifiedBy;
-            existingDocument.LastModifiedAt = updatedDocument.LastModifiedAt;
+            existingDocument.UpdatedBy = updatedDocument.UpdatedBy;
+            existingDocument.UpdatedAt = updatedDocument.UpdatedAt;
 
             _context.TblDocument.Update(existingDocument);
             await _context.SaveChangesAsync();

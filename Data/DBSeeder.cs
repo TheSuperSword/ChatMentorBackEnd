@@ -1,5 +1,4 @@
-﻿using ChatMentor.Backend.DbContext;
-using ChatMentor.Backend.Model;
+﻿using ChatMentor.Backend.Model;
 
 namespace ChatMentor.Backend.Data
 {

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ChatMentor.Backend.Model;
 
 [Index(nameof(UserId), IsUnique = true)]
-public class User
+public class User : AuditableEntity
 {
     [Key] public int Id { get; set; } // Auto-incremented primary key (for easy querying)
 
@@ -40,16 +40,7 @@ public class User
     [StringLength(45)] public string? LastLogonIp { get; set; } // IP Address of last login
 
     public DateTime? PasswordChangedAt { get; set; } // Last password change
-
-    // Audit Fields
-    [StringLength(50)] public string? CreatedBy { get; set; }
-
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-    [StringLength(50)] public string? UpdatedBy { get; set; }
-
-    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-
+    
     // Navigation Property for Many-to-Many Tags
     public List<UserTag> UserTags { get; set; } = [];
 }

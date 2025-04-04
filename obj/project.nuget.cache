@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Fhn6fP2hzJc=",
+  "dgSpecHash": "YCDb98rY+l4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\cheng\\source\\repos\\ChatMentor.Backend\\ChatMentor.Backend.csproj",
+  "projectFilePath": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor\\ChatMentor.Backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\cheng\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\cheng\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

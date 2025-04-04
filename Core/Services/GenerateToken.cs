@@ -31,6 +31,8 @@ namespace ChatMentor.Backend.Core.Services
                 new Claim(JwtRegisteredClaimNames.Sub, userId), // UserId or Unique Identifier
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()), // Unique Token ID
                 new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),
+                
+                new Claim(ClaimTypes.NameIdentifier, userId),
                 new Claim(ClaimTypes.Name, username),
                 new Claim(ClaimTypes.Role, userRole)
             };

@@ -37,8 +37,8 @@ public class DocumentService(
             FilePath = GetRelativePath(filePath),
             ContentType = file.ContentType,
             FileSize = file.Length,
-            UploadedBy = uploadedBy,
-            UploadedAt = DateTime.UtcNow,
+            CreatedBy = uploadedBy,
+            CreatedAt = DateTime.UtcNow,
             AssociatedEntity = associatedEntity,
             RelatedEntityId = relatedEntityId
         };
@@ -89,8 +89,8 @@ public class DocumentService(
             existingDocument.FilePath = GetRelativePath(newFilePath);
             existingDocument.ContentType = newFile.ContentType;
             existingDocument.FileSize = newFile.Length;
-            existingDocument.LastModifiedBy = modifiedBy;
-            existingDocument.LastModifiedAt = DateTime.UtcNow;
+            existingDocument.UpdatedBy = modifiedBy;
+            existingDocument.UpdatedAt = DateTime.UtcNow;
 
             return await _documentRepository.UpdateDocumentAsync(existingDocument);
         }

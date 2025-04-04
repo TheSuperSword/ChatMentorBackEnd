@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ChatMentor.Backend.Model
 {
     [Index(nameof(Name), IsUnique = true)] // Prevent duplicate tags
-    public class Tag 
+    public class Tag : AuditableEntity
     {
         [Key]
         public int Id { get; set; }  // Auto-incremented primary key
@@ -15,10 +15,6 @@ namespace ChatMentor.Backend.Model
 
         // Navigation Property
         public List<UserTag> UserTags { get; set; } = [];
-
-        // Audit Fields
-        [StringLength(50)]
-        public string? CreatedBy { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        
     }
 }

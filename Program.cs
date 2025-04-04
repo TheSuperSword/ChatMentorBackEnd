@@ -3,7 +3,6 @@ using ChatMentor.Backend.Core.Interfaces;
 using ChatMentor.Backend.Core.Repositories;
 using ChatMentor.Backend.Core.Services;
 using ChatMentor.Backend.Data;
-using ChatMentor.Backend.DbContext;
 using ChatMentor.Backend.Handler;
 using ChatMentor.Backend.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -73,7 +72,6 @@ try
                     // If the request is for our hub...
                     var path = context.HttpContext.Request.Path;
                     if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs/chat"))
-                        // Read the token out of the query string
                         context.Token = accessToken;
                     return Task.CompletedTask;
                 }
@@ -120,17 +118,20 @@ try
                         Id = "Bearer"
                     }
                 },
-                []
+                new List<string>()
             }
         });
     });
+
     // Add Services
     builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
     builder.Services.AddProblemDetails();
+    builder.Services.AddHttpContextAccessor();
+    
+    // Add Identity and other services
     builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
     builder.Services.AddScoped<IUserRepository, UserRepository>();
     builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
-
     builder.Services.AddScoped<DocumentService>();
     builder.Services.AddScoped<AuthService>();
     builder.Services.AddScoped<UserService>();
@@ -145,11 +146,14 @@ try
 
     var app = builder.Build();
 
+    // Add Middleware 
+
+    // Ensure database is created and seeded
     using (var scope = app.Services.CreateScope())
     {
         var dbContext = scope.ServiceProvider.GetRequiredService<ChatMentorDbContext>();
         dbContext.Database.Migrate(); // Ensure database is created
-        DbSeeder.Seed(dbContext); // Call seeder
+        DbSeeder.Seed(dbContext); // Call seeder if necessary
     }
 
     app.UseCors("AllowAll");
@@ -159,20 +163,24 @@ try
         app.UseSwagger();
         app.UseSwaggerUI();
     }
-    //app.UseExceptionHandler();
-    
+    if (app.Environment.IsProduction())
+    {
+        app.UseHsts();
+        app.UseExceptionHandler();
+    }
+
     app.UseRouting();
-    
+
     app.UseAuthentication();
     
-    app.UseAuthorization();
+    app.UseMiddleware<AuditLoggingMiddleware>();  // Add your middleware to the request pipeline
 
-    //app.MapHub<ChatHub>("/hubs/chat");
+    app.UseAuthorization();
 
     app.UseHttpsRedirection();
 
     app.MapControllers();
-    
+
     app.Run();
 }
 catch (Exception ex)
