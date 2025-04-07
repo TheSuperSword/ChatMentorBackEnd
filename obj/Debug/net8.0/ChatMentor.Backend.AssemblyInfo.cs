@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ChatMentor.Backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+322b558f1f12a323c9677f5192584056426226d3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+44448eae8520d5bbf05396c0f5e24b32bb053046")]
 [assembly: System.Reflection.AssemblyProductAttribute("ChatMentor.Backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ChatMentor.Backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

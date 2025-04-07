@@ -2,7 +2,6 @@
 using ChatMentor.Backend.Core.Interfaces;
 using ChatMentor.Backend.DTOs;
 using ChatMentor.Backend.Model;
-using Microsoft.AspNetCore.Identity;
 using ValidationException = ChatMentor.Backend.Handler.ValidationException;
 
 namespace ChatMentor.Backend.Core.Services;

@@ -41,7 +41,6 @@ namespace ChatMentor.Backend.Controllers
             return Ok(JSendResponse<object>.Success(user, "User retrieved successfully"));
         }
         
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAllUsers([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
