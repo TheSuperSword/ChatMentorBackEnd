@@ -7,6 +7,8 @@ namespace ChatMentor.Backend.Core.Repositories
 {
     public class UserRepository(ChatMentorDbContext context) : IUserRepository
     {
+        private IUserRepository _userRepositoryImplementation;
+
         // Retrievers
         public async Task<User?> GetUserByIdAsync(int id)
         {
@@ -18,7 +20,7 @@ namespace ChatMentor.Backend.Core.Repositories
             if (!Guid.TryParse(guid, out Guid parsedGuid)) return null;
             return await context.TblUser.AsNoTracking().FirstOrDefaultAsync(u => u.UserId == parsedGuid);
         }
-        
+
         public async Task<User?> GetUserByEmailAsync(string email)
         {
             return await context.TblUser.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
@@ -42,7 +44,35 @@ namespace ChatMentor.Backend.Core.Repositories
             context.TblUser.Update(user);
             return await context.SaveChangesAsync() > 0;
         }
-        
+
+        public async Task<bool> UpdateLastLoginAsync(User user)
+        {
+            user.LastLogon = DateTime.UtcNow;
+            context.TblUser.Update(user);
+            return await context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> IncrementPasswordTriesAsync(User user)
+        {
+            user.FailedLoginAttempts++;
+            context.TblUser.Update(user);
+            return await context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> ResetPasswordTriesAsync(User user)
+        {
+            user.FailedLoginAttempts = 0;
+            context.TblUser.Update(user);
+            return await context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> LockUserAsync(User user)
+        {
+            user.Status = AccountStatus.Suspended;
+            context.TblUser.Update(user);
+            return await context.SaveChangesAsync() > 0;
+        }
+
         // Creators
         public async Task<User> CreateUserAsync(User user)
         {
@@ -56,13 +86,30 @@ namespace ChatMentor.Backend.Core.Repositories
         {
             return await context.TblUser.AnyAsync(u => u.Email == email);
         }
-        
-        public async Task<bool> IsGuidValidAsync(string guid)
+
+        public async Task<bool> UserExistsAsyncByGuid(string guid)
         {
             if (!Guid.TryParse(guid, out Guid parsedGuid)) return false; // Handle invalid format early
             return await context.TblUser.AnyAsync(u => u.UserId == parsedGuid);
         }
 
-        
+        public async Task<bool> UserExistsAsyncById(int id)
+        {
+            return await context.TblUser.AnyAsync(u => u.Id == id);
+        }
+
+        public async Task<bool> SetRefreshTokenAsync(User user, string? refreshToken, DateTime expiryTime)
+        {
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiryTime = expiryTime;
+            context.TblUser.Update(user);
+            return await context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<User?> GetUserByRefreshTokenAsync(string refreshToken)
+        {
+            return await context.TblUser.AsNoTracking()
+                .FirstOrDefaultAsync(u => u.RefreshToken == refreshToken && u.RefreshTokenExpiryTime > DateTime.UtcNow);
+        }
     }
 }

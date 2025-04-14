@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "wuoDYtc4H28CziTfjPB+zxs+4P22HbHKOlsT/hWAioc=",
+  "Hash": "y5xoaRXyzB5ZueqfkWGbkEuPdCyKOdrG5XKKXIoo7Hc=",
   "Source": "ChatMentor.Backend",
   "BasePath": "_content/ChatMentor.Backend",
   "Mode": "Default",
@@ -51,10 +51,10 @@
       "OriginalItemSpec": "C:\\Users\\cheng\\.nuget\\packages\\microsoft.aspnetcore.components.quickgrid\\8.0.14\\staticwebassets\\QuickGrid.razor.js"
     },
     {
-      "Identity": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor\\obj\\Debug\\net8.0\\scopedcss\\bundle\\ChatMentor.Backend.styles.css",
+      "Identity": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor.Backend\\obj\\Debug\\net8.0\\scopedcss\\bundle\\ChatMentor.Backend.styles.css",
       "SourceId": "ChatMentor.Backend",
       "SourceType": "Computed",
-      "ContentRoot": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
+      "ContentRoot": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor.Backend\\obj\\Debug\\net8.0\\scopedcss\\bundle\\",
       "BasePath": "_content/ChatMentor.Backend",
       "RelativePath": "ChatMentor.Backend#[.{fingerprint}]?.styles.css",
       "AssetKind": "All",
@@ -69,7 +69,7 @@
       "Integrity": "yJzMRujk3CbSbBe5hogvoEpcGbz0ThnTl058XcI1svI=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor\\obj\\Debug\\net8.0\\scopedcss\\bundle\\ChatMentor.Backend.styles.css"
+      "OriginalItemSpec": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor.Backend\\obj\\Debug\\net8.0\\scopedcss\\bundle\\ChatMentor.Backend.styles.css"
     }
   ],
   "Endpoints": [
@@ -149,7 +149,7 @@
     },
     {
       "Route": "ChatMentor.Backend.02jfxhbwsz.styles.css",
-      "AssetFile": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor\\obj\\Debug\\net8.0\\scopedcss\\bundle\\ChatMentor.Backend.styles.css",
+      "AssetFile": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor.Backend\\obj\\Debug\\net8.0\\scopedcss\\bundle\\ChatMentor.Backend.styles.css",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -198,7 +198,7 @@
     },
     {
       "Route": "ChatMentor.Backend.styles.css",
-      "AssetFile": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor\\obj\\Debug\\net8.0\\scopedcss\\bundle\\ChatMentor.Backend.styles.css",
+      "AssetFile": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor.Backend\\obj\\Debug\\net8.0\\scopedcss\\bundle\\ChatMentor.Backend.styles.css",
       "Selectors": [],
       "ResponseHeaders": [
         {

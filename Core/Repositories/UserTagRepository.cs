@@ -1,50 +1,98 @@
-﻿using ChatMentor.Backend.Core.Interfaces;
-using ChatMentor.Backend.Data;
+﻿using ChatMentor.Backend.Data;
 using ChatMentor.Backend.Model;
+using ChatMentor.Backend.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace ChatMentor.Backend.Infrastructure.Repositories
+namespace ChatMentor.Backend.Repositories;
+
+public class UserTagRepository : IUserTagRepository
 {
-    public class UserTagRepository : IUserTagRepository
+    private readonly ChatMentorDbContext _context;
+
+    public UserTagRepository(ChatMentorDbContext context)
     {
-        private readonly ChatMentorDbContext _dbContext;
+        _context = context;
+    }
 
-        public UserTagRepository(ChatMentorDbContext dbContext)
+    public async Task<IEnumerable<UserTag>> GetAllUserTagsAsync()
+    {
+        return await _context.TblUserTag
+            .Include(ut => ut.Tag)
+            .ToListAsync();
+    }
+
+    public async Task<UserTag?> GetUserTagByIdAsync(int id)
+    {
+        return await _context.TblUserTag
+            .Include(ut => ut.Tag)
+            .FirstOrDefaultAsync(ut => ut.Id == id);
+    }
+
+    public async Task<IEnumerable<UserTag>> GetUserTagsByUserIdAsync(int userId)
+    {
+        return await _context.TblUserTag
+            .Include(ut => ut.Tag)
+            .Where(ut => ut.UserId == userId)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<UserTag>> GetUserTagsByTagIdAsync(int tagId)
+    {
+        return await _context.TblUserTag
+            .Include(ut => ut.User)
+            .Where(ut => ut.TagId == tagId)
+            .ToListAsync();
+    }
+
+    public async Task<UserTag?> GetUserTagByUserIdAndTagIdAsync(int userId, int tagId)
+    {
+        return await _context.TblUserTag
+            .Include(ut => ut.Tag)
+            .FirstOrDefaultAsync(ut => ut.UserId == userId && ut.TagId == tagId);
+    }
+
+    public async Task<UserTag> CreateUserTagAsync(UserTag userTag)
+    {
+        _context.TblUserTag.Add(userTag);
+        await _context.SaveChangesAsync();
+        return userTag;
+    }
+
+    public async Task<bool> DeleteUserTagAsync(int id)
+    {
+        var userTag = await _context.TblUserTag.FindAsync(id);
+        if (userTag == null)
         {
-            _dbContext = dbContext;
-        }
-        
-        public async Task<IEnumerable<UserTag>> GetAllByUserIdAsync(int userId)
-        {
-            return await _dbContext.TblUserTag
-                .Include(ut => ut.Tag)  // Include related Tag
-                .Where(ut => ut.UserId == userId)
-                .ToListAsync();
+            return false;
         }
 
-        public async Task<UserTag?> GetByUserIdAndTagIdAsync(int userId, int tagId)
+        _context.TblUserTag.Remove(userTag);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<bool> DeleteUserTagAsync(int userId, int tagId)
+    {
+        var userTag = await _context.TblUserTag
+            .FirstOrDefaultAsync(ut => ut.UserId == userId && ut.TagId == tagId);
+            
+        if (userTag == null)
         {
-            return await _dbContext.TblUserTag
-                .FirstOrDefaultAsync(ut => ut.UserId == userId && ut.TagId == tagId);
+            return false;
         }
 
-        public async Task AddAsync(UserTag userTag)
-        {
-            await _dbContext.TblUserTag.AddAsync(userTag);
-        }
+        _context.TblUserTag.Remove(userTag);
+        await _context.SaveChangesAsync();
+        return true;
+    }
 
-        public Task Remove(UserTag userTag)
-        {
-            _dbContext.TblUserTag.Remove(userTag);
-            return Task.CompletedTask;
-        }
+    public async Task<bool> UserTagExistsAsync(int id)
+    {
+        return await _context.TblUserTag.AnyAsync(ut => ut.Id == id);
+    }
 
-        public async Task SaveChangesAsync()
-        {
-            await _dbContext.SaveChangesAsync();
-        }
+    public async Task<bool> UserTagExistsAsync(int userId, int tagId)
+    {
+        return await _context.TblUserTag.AnyAsync(ut => ut.UserId == userId && ut.TagId == tagId);
     }
 }

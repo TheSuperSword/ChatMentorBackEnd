@@ -14304,11 +14304,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor\\ChatMentor.Backend.csproj",
+      "projectUniqueName": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor.Backend\\ChatMentor.Backend.csproj",
       "projectName": "ChatMentor.Backend",
-      "projectPath": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor\\ChatMentor.Backend.csproj",
+      "projectPath": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor.Backend\\ChatMentor.Backend.csproj",
       "packagesPath": "C:\\Users\\cheng\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor\\obj\\",
+      "outputPath": "C:\\Users\\cheng\\OneDrive\\Desktop\\ChatMentor.Backend\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

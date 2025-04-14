@@ -1,13 +1,15 @@
 ﻿using ChatMentor.Backend.Model;
 
-namespace ChatMentor.Backend.Core.Interfaces;
+namespace ChatMentor.Backend.Repositories.Interfaces;
 
 public interface ITagRepository
 {
-    Task<IEnumerable<Tag>> GetAllAsync();
-    Task<Tag?> GetByIdAsync(int id);
-    Task<Tag?> GetByNameAsync(string name);
-    Task AddAsync(Tag tag);
+    Task<IEnumerable<Tag>> GetAllTagsAsync();
+    Task<Tag?> GetTagByIdAsync(int id);
+    Task<Tag?> GetTagByNameAsync(string name);
+    Task<Tag> CreateTagAsync(Tag tag);
+    Task<Tag?> UpdateTagAsync(int id, Tag tag);
+    Task<bool> DeleteTagAsync(int id);
     Task<bool> TagExistsAsync(string name);
-    Task SaveChangesAsync();
+    Task<bool> TagExistsAsync(int id);
 }

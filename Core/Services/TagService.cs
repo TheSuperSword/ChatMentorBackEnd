@@ -1,91 +1,80 @@
-﻿using ChatMentor.Backend.Core.Interfaces;
+﻿using ChatMentor.Backend.DTOs;
 using ChatMentor.Backend.Model;
-using System.Threading.Tasks;
+using ChatMentor.Backend.Repositories.Interfaces;
 
-namespace ChatMentor.Backend.Core.Services
+namespace ChatMentor.Backend.Services;
+
+public class TagService
 {
-    public class TagService
+    private readonly ITagRepository _tagRepository;
+
+    public TagService(ITagRepository tagRepository)
     {
-        private readonly ITagRepository _tagRepository;
-        private readonly IUserTagRepository _userTagRepository;
+        _tagRepository = tagRepository;
+    }
 
-        public TagService(ITagRepository tagRepository, IUserTagRepository userTagRepository)
+    public async Task<IEnumerable<TagDto>> GetAllTagsAsync()
+    {
+        var tags = await _tagRepository.GetAllTagsAsync();
+        return tags.Select(MapTagToDto);
+    }
+
+    public async Task<TagDto?> GetTagByIdAsync(int id)
+    {
+        var tag = await _tagRepository.GetTagByIdAsync(id);
+        return tag != null ? MapTagToDto(tag) : null;
+    }
+
+    public async Task<TagDto?> GetTagByNameAsync(string name)
+    {
+        var tag = await _tagRepository.GetTagByNameAsync(name);
+        return tag != null ? MapTagToDto(tag) : null;
+    }
+
+    public async Task<TagDto> CreateTagAsync(CreateTagDto createTagDto)
+    {
+        var tag = new Tag
         {
-            _tagRepository = tagRepository;
-            _userTagRepository = userTagRepository;
-        }
+            Name = createTagDto.Name
+        };
 
-        // Add a new tag to the system
-        public async Task AddTagAsync(string tagName)
+        var createdTag = await _tagRepository.CreateTagAsync(tag);
+        return MapTagToDto(createdTag);
+    }
+
+    public async Task<TagDto?> UpdateTagAsync(int id, UpdateTagDto updateTagDto)
+    {
+        var tag = new Tag
         {
-            // Check if tag already exists
-            var existingTag = await _tagRepository.GetByNameAsync(tagName);
-            if (existingTag != null) { throw new InvalidOperationException("Tag already exists."); }
+            Id = id,
+            Name = updateTagDto.Name
+        };
 
-            // Create a new tag and add it
-            var newTag = new Tag { Name = tagName };
-            await _tagRepository.AddAsync(newTag);
-            await _tagRepository.SaveChangesAsync();
-        }
-        
-        // Get all tags
-        public async Task<IEnumerable<Tag>> GetAllTagsAsync()
+        var updatedTag = await _tagRepository.UpdateTagAsync(id, tag);
+        return updatedTag != null ? MapTagToDto(updatedTag) : null;
+    }
+
+    public async Task<bool> DeleteTagAsync(int id)
+    {
+        return await _tagRepository.DeleteTagAsync(id);
+    }
+
+    public async Task<bool> TagExistsAsync(string name)
+    {
+        return await _tagRepository.TagExistsAsync(name);
+    }
+
+    public async Task<bool> TagExistsAsync(int id)
+    {
+        return await _tagRepository.TagExistsAsync(id);
+    }
+
+    private static TagDto MapTagToDto(Tag tag)
+    {
+        return new TagDto
         {
-            return await _tagRepository.GetAllAsync();
-        }
-
-        // Get a tag by its ID
-        public async Task<Tag?> GetTagByIdAsync(int id)
-        {
-            return await _tagRepository.GetByIdAsync(id);
-        }
-
-        // Get a tag by its name
-        public async Task<Tag?> GetTagByNameAsync(string name)
-        {
-            return await _tagRepository.GetByNameAsync(name);
-        }
-        
-        // Get the list of tags for a user
-        public async Task<IEnumerable<Tag>> GetTagsByUserIdAsync(int userId)
-        {
-            // Fetch the UserTag entries for the given user
-            var userTags = await _userTagRepository.GetAllByUserIdAsync(userId);
-
-            // Convert UserTag list to Tag list by selecting the related Tag from UserTag
-            var tags = userTags.Select(ut => ut.Tag).ToList();
-
-            return tags;
-        }
-
-
-        // Remove a tag from a user
-        public async Task RemoveTagFromUserAsync(int userId, int tagId)
-        {
-            var userTag = await _userTagRepository.GetByUserIdAndTagIdAsync(userId, tagId);
-            if (userTag != null)
-            {
-                await _userTagRepository.Remove(userTag);
-                await _userTagRepository.SaveChangesAsync();
-            }
-        }
-        
-        // Add a tag to a user
-        public async Task AddTagToUserAsync(int userId, string tagName)
-        {
-            // Get the tag by name, create if it doesn't exist
-            var tag = await _tagRepository.GetByNameAsync(tagName);
-            if (tag == null)
-            {
-                tag = new Tag { Name = tagName };
-                await _tagRepository.AddAsync(tag);
-                await _tagRepository.SaveChangesAsync(); // Save tag first
-            }
-
-            // Create a user-tag relationship
-            var userTag = new UserTag { UserId = userId, TagId = tag.Id };
-            await _userTagRepository.AddAsync(userTag);
-            await _userTagRepository.SaveChangesAsync();  // Save user-tag relationship
-        }
+            Id = tag.Id,
+            Name = tag.Name
+        };
     }
 }

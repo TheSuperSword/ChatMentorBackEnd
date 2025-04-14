@@ -41,6 +41,11 @@ public class User : AuditableEntity
 
     public DateTime? PasswordChangedAt { get; set; } // Last password change
     
+    // Refresh Token Properties
+    [StringLength(512)] public string? RefreshToken { get; set; } // The refresh token
+    
+    public DateTime RefreshTokenExpiryTime { get; set; } // When the refresh token expires
+    
     // Navigation Property for Many-to-Many Tags
     public List<UserTag> UserTags { get; set; } = [];
 }

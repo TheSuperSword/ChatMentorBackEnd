@@ -1,9 +1,9 @@
-﻿using ChatMentor.Backend.Core.Interfaces;
-using ChatMentor.Backend.Data;
+﻿using ChatMentor.Backend.Data;
 using ChatMentor.Backend.Model;
+using ChatMentor.Backend.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace ChatMentor.Backend.Core.Repositories;
+namespace ChatMentor.Backend.Repositories;
 
 public class TagRepository : ITagRepository
 {
@@ -14,29 +14,58 @@ public class TagRepository : ITagRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Tag>> GetAllAsync()
+    public async Task<IEnumerable<Tag>> GetAllTagsAsync()
     {
-        return await _context.TblTag
-            .Include(t => t.UserTags)
-            .ToListAsync();
+        return await _context.TblTag.ToListAsync();
     }
 
-    public async Task<Tag?> GetByIdAsync(int id)
+    public async Task<Tag?> GetTagByIdAsync(int id)
     {
-        return await _context.TblTag
-            .Include(t => t.UserTags)
-            .FirstOrDefaultAsync(t => t.Id == id);
+        return await _context.TblTag.FindAsync(id);
     }
 
-    public async Task<Tag?> GetByNameAsync(string name)
+    public async Task<Tag?> GetTagByNameAsync(string name)
     {
         return await _context.TblTag
             .FirstOrDefaultAsync(t => t.Name.ToLower() == name.ToLower());
     }
 
-    public async Task AddAsync(Tag tag)
+    public async Task<Tag> CreateTagAsync(Tag tag)
     {
-        await _context.TblTag.AddAsync(tag);
+        _context.TblTag.Add(tag);
+        await _context.SaveChangesAsync();
+        return tag;
+    }
+
+    public async Task<Tag?> UpdateTagAsync(int id, Tag tag)
+    {
+        var existingTag = await _context.TblTag.FindAsync(id);
+        
+        if (existingTag == null)
+        {
+            return null;
+        }
+
+        existingTag.Name = tag.Name;
+        
+        // No need to update CreatedAt and CreatedBy
+        // UpdatedAt and UpdatedBy will be handled by SaveChangesAsync in DbContext
+        
+        await _context.SaveChangesAsync();
+        return existingTag;
+    }
+
+    public async Task<bool> DeleteTagAsync(int id)
+    {
+        var tag = await _context.TblTag.FindAsync(id);
+        if (tag == null)
+        {
+            return false;
+        }
+
+        _context.TblTag.Remove(tag);
+        await _context.SaveChangesAsync();
+        return true;
     }
 
     public async Task<bool> TagExistsAsync(string name)
@@ -44,8 +73,8 @@ public class TagRepository : ITagRepository
         return await _context.TblTag.AnyAsync(t => t.Name.ToLower() == name.ToLower());
     }
 
-    public async Task SaveChangesAsync()
+    public async Task<bool> TagExistsAsync(int id)
     {
-        await _context.SaveChangesAsync();
+        return await _context.TblTag.AnyAsync(t => t.Id == id);
     }
 }

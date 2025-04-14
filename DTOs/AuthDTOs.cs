@@ -14,18 +14,35 @@ public class RegisterUserDto
     public required string ConfirmPassword { get; set; }
     [EnumDataType(typeof(UserRole))] public UserRole? Role { get; set; }
 }
+
 public class LoginResponseDto
 {
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Email { get; set; }
-    public string? Headline { get; set; } // Optional headline
-    public string? Bio { get; set; } // Optional bio
-    public string? ProfilePictureUrl { get; set; } // Profile picture URL
-    public string? Token { get; set; } // JWT Token for authentication
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string? Headline { get; set; }
+    public string? Bio { get; set; }
+    public string? ProfilePictureUrl { get; set; }
+    public string? AccessToken { get; set; } // Changed from Token to AccessToken
+    public string? RefreshToken { get; set; } // Added for refresh token flow
+    public int ExpiresIn { get; set; } // Token expiration in seconds
 }
+
 public class LoginUserDto
 {
     [EmailAddress] public required string Email { get; set; }
     public required string Password { get; set; }
+}
+
+public class TokenResponse
+{
+    public string AccessToken { get; set; } = string.Empty;
+    public string RefreshToken { get; set; } = string.Empty;
+    public int ExpiresIn { get; set; } // Token expiration in seconds
+}
+
+public class RefreshTokenRequest
+{
+    public string? AccessToken { get; set; }
+    public string? RefreshToken { get; set; }
 }

@@ -3,16 +3,47 @@ using ChatMentor.Backend.Model;
 
 namespace ChatMentor.Backend.Core.Services;
 
-public class DocumentService(
-    IDocumentRepository documentRepository,
-    IWebHostEnvironment hostingEnvironment,
-    IConfiguration configuration,
-    ILogger<DocumentService> logger)
+public class DocumentService
 {
-    private readonly IDocumentRepository _documentRepository = documentRepository ?? throw new ArgumentNullException(nameof(documentRepository));
-    private readonly IWebHostEnvironment _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
-    private readonly ILogger<DocumentService> _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-    private readonly string? _uploadsBasePath = configuration["FileStorage:UploadsBasePath"];
+    private readonly IDocumentRepository _documentRepository;
+    private readonly IWebHostEnvironment _hostingEnvironment;
+    private readonly ILogger<DocumentService> _logger;
+    private readonly string _uploadsBasePath;
+    private readonly string _profilePicturesPath;
+    private readonly string _documentsPath;
+
+    public DocumentService(
+        IDocumentRepository documentRepository,
+        IWebHostEnvironment hostingEnvironment,
+        IConfiguration configuration,
+        ILogger<DocumentService> logger)
+    {
+        _documentRepository = documentRepository ?? throw new ArgumentNullException(nameof(documentRepository));
+        _hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        
+        // Get paths from configuration with fallbacks
+        _uploadsBasePath = configuration["FileStorage:UploadsBasePath"];
+        if (string.IsNullOrEmpty(_uploadsBasePath))
+        {
+            _uploadsBasePath = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
+            _logger.LogWarning("FileStorage:UploadsBasePath not configured. Using default path: {Path}", _uploadsBasePath);
+        }
+        
+        _profilePicturesPath = configuration["FileStorage:ProfilePicturesPath"] ?? "/profile_pics";
+        _documentsPath = configuration["FileStorage:DocumentsPath"] ?? "/documents";
+        
+        // Ensure the base uploads directory exists
+        if (!Directory.Exists(_uploadsBasePath))
+        {
+            Directory.CreateDirectory(_uploadsBasePath);
+            _logger.LogInformation("Created base uploads directory: {Path}", _uploadsBasePath);
+        }
+        
+        // Ensure subdirectories exist
+        EnsureDirectoryExists("profile_pics");
+        EnsureDirectoryExists("documents");
+    }
 
     public async Task<Document?> UploadDocumentAsync(IFormFile file, Guid uploadedBy, string associatedEntity, Guid? relatedEntityId = null)
     {
@@ -23,27 +54,51 @@ public class DocumentService(
         var uploadFolderPath = EnsureDirectoryExists(associatedEntity);
         var fileName = GenerateUniqueFilename(file.FileName);
         var filePath = Path.Combine(uploadFolderPath, fileName);
-        // Save file locally
-        await using (var stream = new FileStream(filePath, FileMode.Create))
+        
+        try
         {
-            await file.CopyToAsync(stream);
+            // Save file locally
+            await using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            // Save metadata to the database
+            var document = new Document
+            {
+                DocId = Guid.NewGuid(),
+                FileName = file.FileName,
+                FilePath = GetRelativePath(filePath),
+                ContentType = file.ContentType,
+                FileSize = file.Length,
+                CreatedBy = uploadedBy,
+                CreatedAt = DateTime.UtcNow,
+                AssociatedEntity = associatedEntity,
+                RelatedEntityId = relatedEntityId
+            };
+
+            return await _documentRepository.UploadDocumentAsync(document);
         }
-
-        // Save metadata to the database
-        var document = new Document
+        catch (Exception ex)
         {
-            DocId = Guid.NewGuid(),
-            FileName = file.FileName,
-            FilePath = GetRelativePath(filePath),
-            ContentType = file.ContentType,
-            FileSize = file.Length,
-            CreatedBy = uploadedBy,
-            CreatedAt = DateTime.UtcNow,
-            AssociatedEntity = associatedEntity,
-            RelatedEntityId = relatedEntityId
-        };
-
-        return await _documentRepository.UploadDocumentAsync(document);
+            _logger.LogError(ex, "Error uploading file {FileName} for entity {Entity}", file.FileName, associatedEntity);
+            
+            // Clean up the file if it was created but database operation failed
+            if (File.Exists(filePath))
+            {
+                try
+                {
+                    File.Delete(filePath);
+                }
+                catch
+                {
+                    // Log but don't throw to avoid masking the original exception
+                    _logger.LogWarning("Failed to delete file {FilePath} after upload error", filePath);
+                }
+            }
+            
+            throw;
+        }
     }
 
     public async Task<Document?> GetDocumentByGuidAsync(string guid)
@@ -69,6 +124,7 @@ public class DocumentService(
         var uploadFolderPath = EnsureDirectoryExists(existingDocument.AssociatedEntity ?? "misc");
         var newFileName = GenerateUniqueFilename(newFile.FileName);
         var newFilePath = Path.Combine(uploadFolderPath, newFileName);
+        string? oldFilePath = null;
 
         try
         {
@@ -78,13 +134,21 @@ public class DocumentService(
                 await newFile.CopyToAsync(stream);
             }
 
-            // Delete the old file after successfully saving the new file
-            var oldFilePath = Path.Combine(_hostingEnvironment.WebRootPath,
-                existingDocument.FilePath.TrimStart('/'));
-            if (File.Exists(oldFilePath)) File.Delete(oldFilePath);
+            // Get the old file path - handle potential null/invalid paths gracefully
+            if (!string.IsNullOrEmpty(existingDocument.FilePath))
+            {
+                try
+                {
+                    oldFilePath = ResolveAbsolutePath(existingDocument.FilePath);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Could not resolve absolute path for document {DocGuid}", docGuid);
+                    // Continue with the update even if we can't delete the old file
+                }
+            }
 
             // Update metadata
-            existingDocument.DocId = Guid.NewGuid(); // New file, new ID
             existingDocument.FileName = newFile.FileName;
             existingDocument.FilePath = GetRelativePath(newFilePath);
             existingDocument.ContentType = newFile.ContentType;
@@ -92,11 +156,42 @@ public class DocumentService(
             existingDocument.UpdatedBy = modifiedBy;
             existingDocument.UpdatedAt = DateTime.UtcNow;
 
-            return await _documentRepository.UpdateDocumentAsync(existingDocument);
+            var result = await _documentRepository.UpdateDocumentAsync(existingDocument);
+
+            // Delete the old file after successfully saving the new file and updating the DB
+            if (result && oldFilePath != null && File.Exists(oldFilePath))
+            {
+                try
+                {
+                    File.Delete(oldFilePath);
+                }
+                catch (Exception ex)
+                {
+                    // Log but continue - the update was successful
+                    _logger.LogWarning(ex, "Failed to delete old file {FilePath} after successful update", oldFilePath);
+                }
+            }
+
+            return result;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occurred while updating document with GUID {DocGuid}.", docGuid);
+            
+            // Clean up the new file if it was created but update failed
+            if (File.Exists(newFilePath))
+            {
+                try
+                {
+                    File.Delete(newFilePath);
+                }
+                catch
+                {
+                    // Log but don't throw to avoid masking the original exception
+                    _logger.LogWarning("Failed to delete file {FilePath} after update error", newFilePath);
+                }
+            }
+            
             throw;
         }
     }
@@ -113,11 +208,25 @@ public class DocumentService(
             return false;
         }
 
-        var filePath = Path.Combine(_hostingEnvironment.WebRootPath, document.FilePath.TrimStart('/'));
         try
         {
-            // Delete file from disk
-            if (File.Exists(filePath)) File.Delete(filePath);
+            // Delete file from disk if path is valid
+            if (!string.IsNullOrEmpty(document.FilePath))
+            {
+                try
+                {
+                    var filePath = ResolveAbsolutePath(document.FilePath);
+                    if (File.Exists(filePath))
+                    {
+                        File.Delete(filePath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log but continue with database deletion
+                    _logger.LogWarning(ex, "Error deleting file for document {DocGuid}", guid);
+                }
+            }
 
             // Delete metadata from database
             return await _documentRepository.DeleteDocumentAsync(guid);
@@ -132,9 +241,31 @@ public class DocumentService(
     // Utility: Ensures directory exists, creates it if necessary
     private string EnsureDirectoryExists(string associatedEntity)
     {
-        var folderPath = Path.Combine(_uploadsBasePath, associatedEntity.ToLowerInvariant());
+        // Standardize the entity name
+        var entityDir = associatedEntity.ToLowerInvariant();
+        
+        // Choose the appropriate base directory based on entity type
+        string subPath;
+        if (entityDir == "profilepictures" || entityDir == "profile_pictures" || entityDir == "profile")
+        {
+            subPath = _profilePicturesPath.TrimStart('/');
+        }
+        else if (entityDir == "documents" || entityDir == "docs")
+        {
+            subPath = _documentsPath.TrimStart('/');
+        }
+        else
+        {
+            // For anything else, use a subdirectory with the entity name
+            subPath = entityDir;
+        }
+        
+        var folderPath = Path.Combine(_uploadsBasePath, subPath);
         if (!Directory.Exists(folderPath))
+        {
             Directory.CreateDirectory(folderPath);
+            _logger.LogInformation("Created directory for entity {Entity}: {Path}", associatedEntity, folderPath);
+        }
         return folderPath;
     }
 
@@ -148,6 +279,39 @@ public class DocumentService(
     // Utility: Returns a relative path from the full file path
     private string GetRelativePath(string fullPath)
     {
-        return Path.GetRelativePath(_hostingEnvironment.WebRootPath, fullPath).Replace("\\", "/");
+        if (string.IsNullOrEmpty(_uploadsBasePath))
+        {
+            throw new InvalidOperationException("Uploads base path is not configured properly.");
+        }
+        
+        try
+        {
+            return Path.GetRelativePath(_uploadsBasePath, fullPath).Replace("\\", "/");
+        }
+        catch (ArgumentNullException)
+        {
+            _logger.LogError("Failed to get relative path. Base path: '{BasePath}', File path: '{FilePath}'", 
+                _uploadsBasePath, fullPath);
+            throw new InvalidOperationException("Could not calculate relative path. Check that all paths are properly configured.");
+        }
+    }
+
+    // Utility: Resolves a relative path to an absolute path
+    private string ResolveAbsolutePath(string relativePath)
+    {
+        if (string.IsNullOrEmpty(_uploadsBasePath))
+        {
+            throw new InvalidOperationException("Uploads base path is not configured properly.");
+        }
+        
+        // If the path already starts with the upload base path, it's already absolute
+        if (relativePath.StartsWith(_uploadsBasePath, StringComparison.OrdinalIgnoreCase))
+        {
+            return relativePath;
+        }
+        
+        // Handle both types of slashes and trim leading slash if present
+        relativePath = relativePath.Replace("/", Path.DirectorySeparatorChar.ToString()).TrimStart(Path.DirectorySeparatorChar);
+        return Path.Combine(_uploadsBasePath, relativePath);
     }
 }

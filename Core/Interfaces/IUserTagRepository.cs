@@ -1,12 +1,17 @@
 ﻿using ChatMentor.Backend.Model;
 
-namespace ChatMentor.Backend.Core.Interfaces;
+namespace ChatMentor.Backend.Repositories.Interfaces;
 
 public interface IUserTagRepository
 {
-    Task<IEnumerable<UserTag>> GetAllByUserIdAsync(int userId);  // Get all tags for a specific user
-    Task<UserTag?> GetByUserIdAndTagIdAsync(int userId, int tagId);  // Get user-tag by user ID and tag ID
-    Task AddAsync(UserTag userTag);  // Add a new user-tag relationship
-    Task Remove(UserTag userTag);  // Remove a user-tag relationship
-    Task SaveChangesAsync();  // Commit changes to the database
+    Task<IEnumerable<UserTag>> GetAllUserTagsAsync();
+    Task<UserTag?> GetUserTagByIdAsync(int id);
+    Task<IEnumerable<UserTag>> GetUserTagsByUserIdAsync(int userId);
+    Task<IEnumerable<UserTag>> GetUserTagsByTagIdAsync(int tagId);
+    Task<UserTag?> GetUserTagByUserIdAndTagIdAsync(int userId, int tagId);
+    Task<UserTag> CreateUserTagAsync(UserTag userTag);
+    Task<bool> DeleteUserTagAsync(int id);
+    Task<bool> DeleteUserTagAsync(int userId, int tagId);
+    Task<bool> UserTagExistsAsync(int id);
+    Task<bool> UserTagExistsAsync(int userId, int tagId);
 }

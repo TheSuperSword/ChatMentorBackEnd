@@ -3,46 +3,53 @@ using ChatMentor.Backend.Core.Interfaces;
 using ChatMentor.Backend.DTOs;
 using ChatMentor.Backend.Model;
 using ChatMentor.Backend.Responses;
+using ChatMentor.Backend.Services;
 
 namespace ChatMentor.Backend.Core.Services
 {
     public class UserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly UserTagService _userTagService; // Add UserTagService
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, UserTagService userTagService)
         {
             _userRepository = userRepository;
+            _userTagService = userTagService; // Inject UserTagService
         }
 
         // Helper method for mapping User to UserDto
-        private static UserDto MapToDto(User user)
+        private async Task<UserDto> MapToDtoAsync(User user)
         {
+            // Get tags for this user
+            var userTagsInfo = await _userTagService.GetTagsForUserAsync(user.Id);
+            
             return new UserDto
             {
                 Id = user.Id,
-                userGuid = user.UserId.ToString(),
+                UserGuid = user.UserId.ToString(),
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
                 ProfilePictureUrl = user.ProfilePictureUrl,
                 Headline = user.Headline,
                 Bio = user.Bio,
-                Role = user.Role
+                Role = user.Role,
+                Tags = userTagsInfo.Tags // Add the tags list to the DTO
             };
         }
 
-        // Retrievers
+        // Retrievers - Updated to use async version of MapToDto
         public async Task<UserDto?> GetUserByIdAsync(int id)
         {
             var user = await _userRepository.GetUserByIdAsync(id);
-            return user is not null ? MapToDto(user) : null;
+            return user is not null ? await MapToDtoAsync(user) : null;
         }
 
         public async Task<UserDto?> GetUserByGuidAsync(string guid)
         {
             var user = await _userRepository.GetUserByGuidAsync(guid);
-            return user is not null ? MapToDto(user) : null;
+            return user is not null ? await MapToDtoAsync(user) : null;
         }
 
         public async Task<(IEnumerable<UserDto> Users, PaginationMeta Meta)> GetPaginatedUsersAsync(int page, int pageSize)
@@ -58,7 +65,7 @@ namespace ChatMentor.Backend.Core.Services
             var totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
 
             // Adjust out-of-range page number
-            if (page > totalPages)
+            if (page > totalPages && totalRecords > 0)
             { 
                 throw new ArgumentException("Page number is out of range.");
             }
@@ -68,7 +75,14 @@ namespace ChatMentor.Backend.Core.Services
             // Generate pagination metadata
             var meta = new PaginationMeta(page, pageSize, totalRecords);
 
-            return (paginatedUsers.Select(MapToDto), meta);
+            // Map users to DTOs including their tags
+            var userDtos = new List<UserDto>();
+            foreach (var user in paginatedUsers)
+            {
+                userDtos.Add(await MapToDtoAsync(user));
+            }
+
+            return (userDtos, meta);
         } 
         
         // Updaters
@@ -104,8 +118,14 @@ namespace ChatMentor.Backend.Core.Services
             return true;
         }
         
-        
-
-
+        // Validators
+        public async Task<bool> UserExistsAsyncByGuid(string guid)
+        {
+            return await _userRepository.UserExistsAsyncByGuid(guid);
+        }
+        public async Task<bool> UserExistsAsyncById(int id)
+        {
+            return await _userRepository.UserExistsAsyncById(id);
+        }
     }
 }
