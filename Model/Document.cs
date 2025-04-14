@@ -17,7 +17,7 @@ public class Document : AuditableEntity
     [Required] public string ContentType { get; set; } = string.Empty; // MIME type (image/png, application/pdf, etc.)
 
     public long FileSize { get; set; } // File size in bytes
-    
+
     public string? AssociatedEntity { get; set; } // "ProfilePic", "ChatAttachment", "Resource"
 
     public Guid? RelatedEntityId { get; set; } // Reference to a chat, user, or resource

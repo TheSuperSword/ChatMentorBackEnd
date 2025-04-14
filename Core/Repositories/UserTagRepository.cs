@@ -61,10 +61,7 @@ public class UserTagRepository : IUserTagRepository
     public async Task<bool> DeleteUserTagAsync(int id)
     {
         var userTag = await _context.TblUserTag.FindAsync(id);
-        if (userTag == null)
-        {
-            return false;
-        }
+        if (userTag == null) return false;
 
         _context.TblUserTag.Remove(userTag);
         await _context.SaveChangesAsync();
@@ -75,11 +72,8 @@ public class UserTagRepository : IUserTagRepository
     {
         var userTag = await _context.TblUserTag
             .FirstOrDefaultAsync(ut => ut.UserId == userId && ut.TagId == tagId);
-            
-        if (userTag == null)
-        {
-            return false;
-        }
+
+        if (userTag == null) return false;
 
         _context.TblUserTag.Remove(userTag);
         await _context.SaveChangesAsync();

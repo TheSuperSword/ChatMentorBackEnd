@@ -8,8 +8,8 @@ namespace ChatMentor.Backend.Handler;
 public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(
-        HttpContext context, 
-        Exception exception, 
+        HttpContext context,
+        Exception exception,
         CancellationToken cancellationToken)
     {
         // Log the full exception
@@ -58,6 +58,7 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IE
                 errorResponse = JSendResponse<string>.Error("An unexpected error occurred. Please try again later.");
                 break;
         }
+
         context.Response.StatusCode = (int)statusCode;
         context.Response.ContentType = "application/json";
 

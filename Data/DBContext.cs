@@ -13,13 +13,13 @@ public class ChatMentorDbContext : DbContext
     {
         _httpContextAccessor = httpContextAccessor;
     }
-    
+
     public DbSet<AuditLog> TblAuditLogs { get; set; }
     public DbSet<User> TblUser { get; set; }
     public DbSet<Tag> TblTag { get; set; }
     public DbSet<UserTag> TblUserTag { get; set; }
     public DbSet<Document> TblDocument { get; set; }
-        
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -36,7 +36,7 @@ public class ChatMentorDbContext : DbContext
             .HasForeignKey(ut => ut.TagId)
             .OnDelete(DeleteBehavior.Cascade);
     }
-    
+
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         var entries = ChangeTracker
@@ -59,7 +59,7 @@ public class ChatMentorDbContext : DbContext
 
         return await base.SaveChangesAsync(cancellationToken);
     }
-    
+
     private Guid? GetCurrentUserId()
     {
         var userId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;

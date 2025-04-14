@@ -15,7 +15,7 @@ public class JSendResponse<T>
     public string Status { get; set; }
     public T? Data { get; set; }
     public string? Message { get; set; }
-    
+
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PaginationMeta? Meta { get; set; }
 

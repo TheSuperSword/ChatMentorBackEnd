@@ -82,7 +82,7 @@ try
             options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"] 
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]
                     ?? throw new InvalidOperationException())),
                 ValidateIssuer = true,
                 ValidateAudience = true,
@@ -130,7 +130,7 @@ try
     builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
     builder.Services.AddProblemDetails();
     builder.Services.AddHttpContextAccessor();
-    
+
     // Add Identity and other services
     builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
     builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -170,6 +170,7 @@ try
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+
     if (app.Environment.IsProduction())
     {
         app.UseHsts();
@@ -179,8 +180,8 @@ try
     app.UseRouting();
 
     app.UseAuthentication();
-    
-    app.UseMiddleware<AuditLoggingMiddleware>();  // Add your middleware to the request pipeline
+
+    app.UseMiddleware<AuditLoggingMiddleware>(); // Add your middleware to the request pipeline
 
     app.UseAuthorization();
 

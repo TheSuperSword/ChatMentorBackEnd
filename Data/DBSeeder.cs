@@ -11,7 +11,7 @@ public static class DbSeeder
         {
             var users = new List<User>
             {
-                new User()
+                new()
                 {
                     FirstName = "Alice",
                     LastName = "Doe",
@@ -23,7 +23,7 @@ public static class DbSeeder
                     Bio = "Passionate about learning new technologies and programming concepts.",
                     Status = AccountStatus.Active
                 },
-                new User()
+                new()
                 {
                     FirstName = "Dr. Bob",
                     LastName = "Smith",
@@ -32,10 +32,11 @@ public static class DbSeeder
                     Role = UserRole.Mentor,
                     ProfilePictureUrl = "https://ui-avatars.com/api/?name=Dr.Bob+Smith&size=200",
                     Headline = "Senior Software Engineer & Mentor",
-                    Bio = "Experienced software engineer with 15+ years in the field. Passionate about mentoring new developers.",
+                    Bio =
+                        "Experienced software engineer with 15+ years in the field. Passionate about mentoring new developers.",
                     Status = AccountStatus.Active
                 },
-                new User()
+                new()
                 {
                     FirstName = "Carol",
                     LastName = "Johnson",
@@ -47,7 +48,7 @@ public static class DbSeeder
                     Bio = "Working on machine learning projects and data analysis techniques.",
                     Status = AccountStatus.Active
                 },
-                new User()
+                new()
                 {
                     FirstName = "David",
                     LastName = "Wilson",
@@ -59,7 +60,7 @@ public static class DbSeeder
                     Bio = "Building innovative web applications and exploring AI applications in software development.",
                     Status = AccountStatus.Active
                 },
-                new User()
+                new()
                 {
                     FirstName = "Eve",
                     LastName = "Martinez",
@@ -82,58 +83,58 @@ public static class DbSeeder
         {
             var tags = new List<Tag>
             {
-                new Tag { Name = "First Year Bachelor's" },
-                new Tag { Name = "Second Year Bachelor's" },
-                new Tag { Name = "Third Year Bachelor's" },
-                new Tag { Name = "Final Year Bachelor's" },
-                new Tag { Name = "Bachelor's Degree" },
-                new Tag { Name = "Diploma" },
-                new Tag { Name = "Associate Degree" },
-                new Tag { Name = "Master's Degree" },
-                new Tag { Name = "PhD" },
-                new Tag { Name = "Postdoctoral Research" },
-                new Tag { Name = "Graduate" },
-                new Tag { Name = "Undergraduate" },
-                new Tag { Name = "Foundation Year" },
-                new Tag { Name = "Certificate" },
-                new Tag { Name = "High School Graduate" },
-                new Tag { Name = "Technical Training" },
-                new Tag { Name = "Internship" },
-                new Tag { Name = "MBA" }, // For business-focused users
-                new Tag { Name = "MSc" }, // Master of Science
-                new Tag { Name = "MEng" }, // Master of Engineering
-                new Tag { Name = "BSc" }, // Bachelor of Science
-                new Tag { Name = "BEng" },
-                new Tag { Name = "Software Engineering" },
-                new Tag { Name = "Web Development" },
-                new Tag { Name = "Mobile Development" },
-                new Tag { Name = "Data Science" },
-                new Tag { Name = "Machine Learning" },
-                new Tag { Name = "Artificial Intelligence" },
-                new Tag { Name = "Cloud Computing" },
-                new Tag { Name = "DevOps" },
-                new Tag { Name = "Database Management" },
-                new Tag { Name = "UI/UX Design" },
-                new Tag { Name = "Frontend Development" },
-                new Tag { Name = "Backend Development" },
-                new Tag { Name = "Full Stack Development" },
-                new Tag { Name = "Python" },
-                new Tag { Name = "JavaScript" },
-                new Tag { Name = "C#" },
-                new Tag { Name = "Java" },
-                new Tag { Name = "React" },
-                new Tag { Name = "Angular" },
-                new Tag { Name = "Node.js" },
-                new Tag { Name = "ASP.NET" },
-                new Tag { Name = "SQL" },
-                new Tag { Name = "NoSQL" },
-                new Tag { Name = "Azure" },
-                new Tag { Name = "AWS" },
-                new Tag { Name = "Docker" },
-                new Tag { Name = "Kubernetes" },
-                new Tag { Name = "Git" },
-                new Tag { Name = "Agile Methodology" },
-                new Tag { Name = "Computer Science" }
+                new() { Name = "First Year Bachelor's" },
+                new() { Name = "Second Year Bachelor's" },
+                new() { Name = "Third Year Bachelor's" },
+                new() { Name = "Final Year Bachelor's" },
+                new() { Name = "Bachelor's Degree" },
+                new() { Name = "Diploma" },
+                new() { Name = "Associate Degree" },
+                new() { Name = "Master's Degree" },
+                new() { Name = "PhD" },
+                new() { Name = "Postdoctoral Research" },
+                new() { Name = "Graduate" },
+                new() { Name = "Undergraduate" },
+                new() { Name = "Foundation Year" },
+                new() { Name = "Certificate" },
+                new() { Name = "High School Graduate" },
+                new() { Name = "Technical Training" },
+                new() { Name = "Internship" },
+                new() { Name = "MBA" }, // For business-focused users
+                new() { Name = "MSc" }, // Master of Science
+                new() { Name = "MEng" }, // Master of Engineering
+                new() { Name = "BSc" }, // Bachelor of Science
+                new() { Name = "BEng" },
+                new() { Name = "Software Engineering" },
+                new() { Name = "Web Development" },
+                new() { Name = "Mobile Development" },
+                new() { Name = "Data Science" },
+                new() { Name = "Machine Learning" },
+                new() { Name = "Artificial Intelligence" },
+                new() { Name = "Cloud Computing" },
+                new() { Name = "DevOps" },
+                new() { Name = "Database Management" },
+                new() { Name = "UI/UX Design" },
+                new() { Name = "Frontend Development" },
+                new() { Name = "Backend Development" },
+                new() { Name = "Full Stack Development" },
+                new() { Name = "Python" },
+                new() { Name = "JavaScript" },
+                new() { Name = "C#" },
+                new() { Name = "Java" },
+                new() { Name = "React" },
+                new() { Name = "Angular" },
+                new() { Name = "Node.js" },
+                new() { Name = "ASP.NET" },
+                new() { Name = "SQL" },
+                new() { Name = "NoSQL" },
+                new() { Name = "Azure" },
+                new() { Name = "AWS" },
+                new() { Name = "Docker" },
+                new() { Name = "Kubernetes" },
+                new() { Name = "Git" },
+                new() { Name = "Agile Methodology" },
+                new() { Name = "Computer Science" }
             };
 
             context.TblTag.AddRange(tags);
@@ -154,7 +155,6 @@ public static class DbSeeder
             // Alice's tags (Computer Science Student)
             var alice = users.FirstOrDefault(u => u.Email == "alice@example.com");
             if (alice != null)
-            {
                 userTags.AddRange(new[]
                 {
                     new UserTag { UserId = alice.Id, TagId = tags.First(t => t.Name == "Software Engineering").Id },
@@ -163,12 +163,10 @@ public static class DbSeeder
                     new UserTag { UserId = alice.Id, TagId = tags.First(t => t.Name == "Computer Science").Id },
                     new UserTag { UserId = alice.Id, TagId = tags.First(t => t.Name == "Web Development").Id }
                 });
-            }
 
             // Bob's tags (Senior Software Engineer & Mentor)
             var bob = users.FirstOrDefault(u => u.Email == "bob@example.com");
             if (bob != null)
-            {
                 userTags.AddRange(new[]
                 {
                     new UserTag { UserId = bob.Id, TagId = tags.First(t => t.Name == "Software Engineering").Id },
@@ -180,12 +178,10 @@ public static class DbSeeder
                     new UserTag { UserId = bob.Id, TagId = tags.First(t => t.Name == "SQL").Id },
                     new UserTag { UserId = bob.Id, TagId = tags.First(t => t.Name == "Agile Methodology").Id }
                 });
-            }
 
             // Carol's tags (Data Science Enthusiast)
             var carol = users.FirstOrDefault(u => u.Email == "carol@example.com");
             if (carol != null)
-            {
                 userTags.AddRange(new[]
                 {
                     new UserTag { UserId = carol.Id, TagId = tags.First(t => t.Name == "Data Science").Id },
@@ -194,12 +190,10 @@ public static class DbSeeder
                     new UserTag { UserId = carol.Id, TagId = tags.First(t => t.Name == "SQL").Id },
                     new UserTag { UserId = carol.Id, TagId = tags.First(t => t.Name == "Artificial Intelligence").Id }
                 });
-            }
 
             // David's tags (Full Stack Developer & AI Researcher)
             var david = users.FirstOrDefault(u => u.Email == "david@example.com");
             if (david != null)
-            {
                 userTags.AddRange(new[]
                 {
                     new UserTag { UserId = david.Id, TagId = tags.First(t => t.Name == "Full Stack Development").Id },
@@ -211,12 +205,10 @@ public static class DbSeeder
                     new UserTag { UserId = david.Id, TagId = tags.First(t => t.Name == "Artificial Intelligence").Id },
                     new UserTag { UserId = david.Id, TagId = tags.First(t => t.Name == "Machine Learning").Id }
                 });
-            }
 
             // Eve's tags (UX Design Student)
             var eve = users.FirstOrDefault(u => u.Email == "eve@example.com");
             if (eve != null)
-            {
                 userTags.AddRange(new[]
                 {
                     new UserTag { UserId = eve.Id, TagId = tags.First(t => t.Name == "UI/UX Design").Id },
@@ -224,7 +216,6 @@ public static class DbSeeder
                     new UserTag { UserId = eve.Id, TagId = tags.First(t => t.Name == "JavaScript").Id },
                     new UserTag { UserId = eve.Id, TagId = tags.First(t => t.Name == "React").Id }
                 });
-            }
 
             context.TblUserTag.AddRange(userTags);
             context.SaveChanges();

@@ -7,9 +7,9 @@ namespace ChatMentor.Backend.Services;
 
 public class UserTagService
 {
-    private readonly IUserTagRepository _userTagRepository;
-    private readonly IUserRepository _userRepository;
     private readonly ITagRepository _tagRepository;
+    private readonly IUserRepository _userRepository;
+    private readonly IUserTagRepository _userTagRepository;
 
     public UserTagService(
         IUserTagRepository userTagRepository,
@@ -36,13 +36,10 @@ public class UserTagService
     public async Task<UserTagsForUserDto> GetTagsForUserAsync(int userId)
     {
         var user = await _userRepository.GetUserByIdAsync(userId);
-        if (user == null)
-        {
-            return new UserTagsForUserDto { UserId = userId };
-        }
+        if (user == null) return new UserTagsForUserDto { UserId = userId };
 
         var userTags = await _userTagRepository.GetUserTagsByUserIdAsync(userId);
-        
+
         var result = new UserTagsForUserDto
         {
             UserId = userId,
@@ -62,13 +59,10 @@ public class UserTagService
     public async Task<UsersForTagDto> GetUsersForTagAsync(int tagId)
     {
         var tag = await _tagRepository.GetTagByIdAsync(tagId);
-        if (tag == null)
-        {
-            return new UsersForTagDto { TagId = tagId };
-        }
+        if (tag == null) return new UsersForTagDto { TagId = tagId };
 
         var userTags = await _userTagRepository.GetUserTagsByTagIdAsync(tagId);
-        
+
         var result = new UsersForTagDto
         {
             TagId = tagId,
@@ -108,11 +102,11 @@ public class UserTagService
         };
 
         var createdUserTag = await _userTagRepository.CreateUserTagAsync(userTag);
-        
+
         // Fetch the related entities to include the names in the response
         var tag = await _tagRepository.GetTagByIdAsync(createUserTagDto.TagId);
         var user = await _userRepository.GetUserByIdAsync(createUserTagDto.UserId);
-        
+
         return new UserTagDto
         {
             Id = createdUserTag.Id,

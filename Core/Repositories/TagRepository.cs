@@ -40,17 +40,14 @@ public class TagRepository : ITagRepository
     public async Task<Tag?> UpdateTagAsync(int id, Tag tag)
     {
         var existingTag = await _context.TblTag.FindAsync(id);
-        
-        if (existingTag == null)
-        {
-            return null;
-        }
+
+        if (existingTag == null) return null;
 
         existingTag.Name = tag.Name;
-        
+
         // No need to update CreatedAt and CreatedBy
         // UpdatedAt and UpdatedBy will be handled by SaveChangesAsync in DbContext
-        
+
         await _context.SaveChangesAsync();
         return existingTag;
     }
@@ -58,10 +55,7 @@ public class TagRepository : ITagRepository
     public async Task<bool> DeleteTagAsync(int id)
     {
         var tag = await _context.TblTag.FindAsync(id);
-        if (tag == null)
-        {
-            return false;
-        }
+        if (tag == null) return false;
 
         _context.TblTag.Remove(tag);
         await _context.SaveChangesAsync();

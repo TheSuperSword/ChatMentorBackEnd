@@ -85294,3 +85294,58 @@ File name: 'NLog.Extended, Culture=neutral, PublicKeyToken=null'
 2025-04-15 02:51:17.0083 Debug Logger Microsoft.AspNetCore.Authorization.DefaultAuthorizationService [Warn] => logfile
 2025-04-15 02:51:17.0083 Debug Logger Microsoft.AspNetCore.Authorization.DefaultAuthorizationService [Error] => logfile
 2025-04-15 02:51:17.0083 Debug Logger Microsoft.AspNetCore.Authorization.DefaultAuthorizationService [Fatal] => logfile
+2025-04-15 02:53:32.3822 Debug Targets configured when LogLevel >= Trace for Logger: Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinder
+2025-04-15 02:53:32.3822 Debug Logger Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinder [Trace] => logfile
+2025-04-15 02:53:32.3822 Debug Logger Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinder [Debug] => logfile
+2025-04-15 02:53:32.3822 Debug Logger Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinder [Info] => logfile
+2025-04-15 02:53:32.3822 Debug Logger Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinder [Warn] => logfile
+2025-04-15 02:53:32.3822 Debug Logger Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinder [Error] => logfile
+2025-04-15 02:53:32.3822 Debug Logger Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinder [Fatal] => logfile
+2025-04-15 03:06:11.4769 Debug LogFactory Flush with timeout=15 secs
+2025-04-15 03:06:11.4769 Trace Flushing all 1 targets...
+2025-04-15 03:06:11.4769 Trace ForEachItemInParallel() 1 items
+2025-04-15 03:06:11.4769 Trace FileTarget(Name=logfile): FlushAsync
+2025-04-15 03:06:11.4769 Trace Continuation invoked: 
+2025-04-15 03:06:11.4769 Trace Parallel task completed. 0 items remaining
+2025-04-15 03:06:11.4769 Debug Flush completed
+2025-04-15 03:06:11.4769 Trace FileTarget(Name=logfile): FlushAsync Done
+2025-04-15 03:06:11.4769 Info Shutdown() called. Logger closing...
+2025-04-15 03:06:11.4769 Info Closing old configuration.
+2025-04-15 03:06:11.4769 Debug LogFactory Flush with timeout=15 secs
+2025-04-15 03:06:11.4923 Trace Flushing all 1 targets...
+2025-04-15 03:06:11.4923 Trace ForEachItemInParallel() 1 items
+2025-04-15 03:06:11.4923 Trace FileTarget(Name=logfile): FlushAsync
+2025-04-15 03:06:11.4923 Trace Continuation invoked: 
+2025-04-15 03:06:11.4923 Trace Parallel task completed. 0 items remaining
+2025-04-15 03:06:11.4923 Debug Flush completed
+2025-04-15 03:06:11.4923 Trace FileTarget(Name=logfile): FlushAsync Done
+2025-04-15 03:06:11.4923 Debug Closing logging configuration...
+2025-04-15 03:06:11.4923 Trace Closing FileTarget(Name=logfile)
+2025-04-15 03:06:11.4923 Debug FileTarget(Name=logfile): Closing...
+2025-04-15 03:06:11.4923 Trace FileTarget(Name=logfile): FinalizeFile 'C:\Users\cheng\OneDrive\Desktop\ChatMentor.Backend\bin\Debug\net8.0\logs\nlog-2025-04-15.log, isArchiving: False'
+2025-04-15 03:06:11.4923 Debug FileTarget(Name=logfile): FileAppender Invalidate Closing File: 'C:\Users\cheng\OneDrive\Desktop\ChatMentor.Backend\bin\Debug\net8.0\logs\nlog-2025-04-15.log'
+2025-04-15 03:06:11.4923 Trace FileTarget: Closing 'C:\Users\cheng\OneDrive\Desktop\ChatMentor.Backend\bin\Debug\net8.0\logs\nlog-2025-04-15.log'
+2025-04-15 03:06:11.4923 Debug FileTarget(Name=logfile): Closed.
+2025-04-15 03:06:11.4923 Trace Closing ${basedir}/logs/nlog-${date:format=yyyy-MM-dd}.log
+2025-04-15 03:06:11.4923 Trace Closing Layout Renderer: ${literal}
+2025-04-15 03:06:11.4923 Trace Closing Layout Renderer: ${date}
+2025-04-15 03:06:11.4923 Trace Closing Layout Renderer: ${literal}
+2025-04-15 03:06:11.4923 Trace Closing ${longdate}|${event-properties:item=EventId_Id:whenEmpty=0}|${level:uppercase=true}|${logger}|${message} ${exception:format=tostring}
+2025-04-15 03:06:11.4923 Trace Closing Layout Renderer: ${longdate}
+2025-04-15 03:06:11.4923 Trace Closing Layout Renderer: ${literal}
+2025-04-15 03:06:11.4923 Trace Closing Layout Renderer: ${whenEmpty}
+2025-04-15 03:06:11.4923 Trace Closing 0
+2025-04-15 03:06:11.4923 Trace Closing Layout Renderer: ${literal}
+2025-04-15 03:06:11.4923 Trace Closing SimpleLayout=Layout Renderer: ${event-properties}
+2025-04-15 03:06:11.4923 Trace Closing Layout Renderer: ${event-properties}
+2025-04-15 03:06:11.4923 Trace Closing Layout Renderer: ${literal}
+2025-04-15 03:06:11.4923 Trace Closing Layout Renderer: ${level}
+2025-04-15 03:06:11.4923 Trace Closing Layout Renderer: ${literal}
+2025-04-15 03:06:11.5064 Trace Closing Layout Renderer: ${loggername}
+2025-04-15 03:06:11.5064 Trace Closing Layout Renderer: ${literal}
+2025-04-15 03:06:11.5064 Trace Closing Layout Renderer: ${message}
+2025-04-15 03:06:11.5064 Trace Closing Layout Renderer: ${literal}
+2025-04-15 03:06:11.5064 Trace Closing Layout Renderer: ${exception}
+2025-04-15 03:06:11.5064 Debug Finished closing logging configuration.
+2025-04-15 03:06:11.5064 Debug Stop watching file-filter 'nlog.config' in directory: C:\Users\cheng\OneDrive\Desktop\ChatMentor.Backend
+2025-04-15 03:06:11.5064 Info Logger has been closed down.

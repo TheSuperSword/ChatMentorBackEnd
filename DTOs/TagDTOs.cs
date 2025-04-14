@@ -10,14 +10,10 @@ public class TagDto
 
 public class CreateTagDto
 {
-    [Required]
-    [StringLength(100)]
-    public string Name { get; set; } = string.Empty;
+    [Required] [StringLength(100)] public string Name { get; set; } = string.Empty;
 }
 
 public class UpdateTagDto
 {
-    [Required]
-    [StringLength(100)]
-    public string Name { get; set; } = string.Empty;
+    [Required] [StringLength(100)] public string Name { get; set; } = string.Empty;
 }
