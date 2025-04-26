@@ -17,12 +17,15 @@ public class RegisterUserDto
 
 public class LoginResponseDto
 {
+    public string UserGuid { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string? Headline { get; set; }
     public string? Bio { get; set; }
     public string? ProfilePictureUrl { get; set; }
+    public UserRole Role { get; set; }
+    public List<TagDto> Tags { get; set; } = new();
     public string? AccessToken { get; set; } // Changed from Token to AccessToken
     public string? RefreshToken { get; set; } // Added for refresh token flow
     public int ExpiresIn { get; set; } // Token expiration in seconds

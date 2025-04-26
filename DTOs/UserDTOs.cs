@@ -5,9 +5,6 @@ namespace ChatMentor.Backend.DTOs;
 
 public class UserDto
 {
-    //Temporary
-    public int Id { get; set; }
-
     public string UserGuid { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;

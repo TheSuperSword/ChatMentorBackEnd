@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ChatMentor.Backend.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/tag")]
 public class TagController : ControllerBase
 {
     private readonly TagService _tagService;

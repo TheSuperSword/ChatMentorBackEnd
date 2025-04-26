@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ChatMentor.Backend.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/auth")]
 public class AuthController : ControllerBase
 {
     private readonly AuthService _authService;
@@ -22,8 +22,7 @@ public class AuthController : ControllerBase
 
     // Register Method
     [HttpPost("register")]
-    [Consumes("multipart/form-data")] // This explicitly tells Swagger to use multipart/form-data
-    public async Task<IActionResult> Register([FromForm] RegisterUserDto registerDto)
+    public async Task<IActionResult> Register([FromBody] RegisterUserDto registerDto)
     {
         var userDto = await _authService.RegisterUserAsync(registerDto);
         if (userDto == null)
@@ -34,7 +33,7 @@ public class AuthController : ControllerBase
         return CreatedAtAction(
             nameof(Register),
             new { email = userDto.Email },
-            JSendResponse<object>.Success(userDto)
+            JSendResponse<object>.Success(userDto, "Registration successful.")
         );
     }
 

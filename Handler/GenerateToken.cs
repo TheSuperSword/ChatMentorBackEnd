@@ -40,7 +40,7 @@ public class TokenService
         var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256);
 
         if (!int.TryParse(_configuration["Jwt:ExpiresInMinutes"],
-                out var expiresInMinutes)) expiresInMinutes = 60; // Default to 60 minutes if parsing fails
+                out var expiresInMinutes)) expiresInMinutes = 15; // Default to 60 minutes if parsing fails
 
         var token = new JwtSecurityToken(
             _configuration["Jwt:Issuer"],

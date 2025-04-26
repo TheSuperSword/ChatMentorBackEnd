@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ChatMentor.Backend.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/user")]
 public class UserController : ControllerBase
 {
     private readonly UserService _userService;
@@ -33,7 +33,8 @@ public class UserController : ControllerBase
         if (user == null) return NotFound(JSendResponse<string>.Fail(null, "User not found"));
         return Ok(JSendResponse<object>.Success(user, "User retrieved successfully"));
     }
-
+    
+    [Authorize]
     [HttpGet]
     public async Task<IActionResult> GetAllUsers([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
     {

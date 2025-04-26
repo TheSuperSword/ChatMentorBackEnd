@@ -137,6 +137,8 @@ try
     builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
     builder.Services.AddScoped<ITagRepository, TagRepository>();
     builder.Services.AddScoped<IUserTagRepository, UserTagRepository>();
+    builder.Services.AddHttpClient<IAIRepository, AIRepository>();
+
     builder.Services.AddScoped<UserTagService>();
     builder.Services.AddScoped<TagService>();
     builder.Services.AddScoped<DocumentService>();

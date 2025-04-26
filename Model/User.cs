@@ -59,6 +59,8 @@ public enum AccountStatus
 
 public enum UserRole
 {
+    Admin,
     Student,
-    Mentor
+    Mentor,
+    Guest
 }

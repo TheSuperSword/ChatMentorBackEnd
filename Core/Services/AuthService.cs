@@ -3,6 +3,7 @@ using System.Security.Claims;
 using ChatMentor.Backend.Core.Interfaces;
 using ChatMentor.Backend.DTOs;
 using ChatMentor.Backend.Model;
+using ChatMentor.Backend.Services;
 using ValidationException = ChatMentor.Backend.Handler.ValidationException;
 
 namespace ChatMentor.Backend.Core.Services;
@@ -12,13 +13,16 @@ public class AuthService
     private readonly DocumentService _documentService;
     private readonly TokenService _tokenService;
     private readonly IUserRepository _userRepository;
+    private readonly UserTagService _userTagService; // Add UserTagService
+
 
     public AuthService(IUserRepository userRepository, IWebHostEnvironment hostingEnvironment,
-        DocumentService documentService, TokenService tokenService)
+        DocumentService documentService, TokenService tokenService, UserTagService userTagService)
     {
         _userRepository = userRepository;
         _documentService = documentService;
         _tokenService = tokenService;
+        _userTagService = userTagService;
     }
 
     public async Task<UserDto?> RegisterUserAsync(RegisterUserDto dto)
@@ -29,7 +33,7 @@ public class AuthService
         // Confirm Password
         if (dto.Password != dto.ConfirmPassword) validationErrors.Add("Password", ["Passwords do not match."]);
 
-        // Check if email is already registered
+        // Check if an email is already registered
         if (await _userRepository.IsEmailInUseAsync(dto.Email))
             validationErrors.Add("Email", ["The email address is already registered."]);
 
@@ -45,6 +49,7 @@ public class AuthService
         // Create user object
         var user = new User
         {
+            UserId = Guid.NewGuid(),
             FirstName = dto.FirstName,
             LastName = dto.LastName,
             Email = dto.Email,
@@ -60,12 +65,14 @@ public class AuthService
         // Map to DTO
         return new UserDto
         {
+            UserGuid = createdUser.UserId.ToString(),
             FirstName = createdUser.FirstName,
             LastName = createdUser.LastName,
             Email = createdUser.Email,
             Headline = createdUser.Headline,
             Bio = createdUser.Bio,
-            ProfilePictureUrl = createdUser.ProfilePictureUrl // Include the profile picture URL
+            ProfilePictureUrl = createdUser.ProfilePictureUrl, // Include the profile picture URL
+            Role = createdUser.Role,
         };
     }
 
@@ -108,16 +115,20 @@ public class AuthService
         // Save refresh token in database
         var refreshTokenExpiryTime = DateTime.UtcNow.AddDays(7); // 7 days expiry
         await _userRepository.SetRefreshTokenAsync(user, tokenResponse.RefreshToken, refreshTokenExpiryTime);
+        var userTagsInfo = await _userTagService.GetTagsForUserAsync(user.Id);
 
         // Create response
         return new LoginResponseDto
         {
+            UserGuid = user.UserId.ToString(),
             FirstName = user.FirstName,
             LastName = user.LastName,
             Email = user.Email,
             Headline = user.Headline,
             Bio = user.Bio,
             ProfilePictureUrl = user.ProfilePictureUrl,
+            Role = UserRole.Student,
+            Tags = userTagsInfo.Tags, // Add the tags list to the DTO
             AccessToken = tokenResponse.AccessToken, // Changed from Token to AccessToken
             RefreshToken = tokenResponse.RefreshToken, // Added RefreshToken
             ExpiresIn = tokenResponse.ExpiresIn // Added ExpiresIn
@@ -151,13 +162,12 @@ public class AuthService
         var tokenResponse = _tokenService.GenerateTokens(userId, userName, user.Role.ToString());
 
         // Update refresh token in database
-        var refreshTokenExpiryTime = DateTime.UtcNow.AddDays(7); // 7 days expiry
+        var refreshTokenExpiryTime = DateTime.UtcNow.AddMinutes(1); // 7 days expiry
         await _userRepository.SetRefreshTokenAsync(user, tokenResponse.RefreshToken, refreshTokenExpiryTime);
 
         return tokenResponse;
     }
 
-    // Implement RevokeRefreshTokenAsync method (for logout)
     public async Task<bool> RevokeRefreshTokenAsync(string userId)
     {
         if (!Guid.TryParse(userId, out var parsedGuid)) return false;

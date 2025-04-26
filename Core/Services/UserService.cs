@@ -26,7 +26,6 @@ public class UserService
 
         return new UserDto
         {
-            Id = user.Id,
             UserGuid = user.UserId.ToString(),
             FirstName = user.FirstName,
             LastName = user.LastName,

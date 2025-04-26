@@ -3,7 +3,7 @@ using ChatMentor.Backend.DTOs;
 using ChatMentor.Backend.Model;
 using ChatMentor.Backend.Repositories.Interfaces;
 
-namespace ChatMentor.Backend.Services;
+namespace ChatMentor.Backend.Core.Services;
 
 public class UserTagService
 {
@@ -71,7 +71,6 @@ public class UserTagService
                 .Where(ut => ut.User != null)
                 .Select(ut => new UserDto
                 {
-                    Id = ut.UserId,
                     UserGuid = ut.User!.UserId.ToString(),
                     FirstName = ut.User.FirstName,
                     LastName = ut.User.LastName,
