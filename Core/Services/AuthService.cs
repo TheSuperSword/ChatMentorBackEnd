@@ -101,7 +101,7 @@ public class AuthService
 
             return null;
         }
-
+        
         // Reset failed login attempts
         await _userRepository.ResetPasswordTriesAsync(user);
 
@@ -112,9 +112,8 @@ public class AuthService
         var userName = $"{user.FirstName} {user.LastName}";
         var tokenResponse = _tokenService.GenerateTokens(user.UserId.ToString(), userName, user.Role.ToString());
 
-        // Save refresh token in database
-        var refreshTokenExpiryTime = DateTime.UtcNow.AddDays(7); // 7 days expiry
-        await _userRepository.SetRefreshTokenAsync(user, tokenResponse.RefreshToken, refreshTokenExpiryTime);
+        // Save a refresh token in a database
+        await _userRepository.SetRefreshTokenAsync(user, tokenResponse.RefreshToken, tokenResponse.RefreshTokenExpiresAt);
         var userTagsInfo = await _userTagService.GetTagsForUserAsync(user.Id);
 
         // Create response
@@ -128,10 +127,10 @@ public class AuthService
             Bio = user.Bio,
             ProfilePictureUrl = user.ProfilePictureUrl,
             Role = UserRole.Student,
-            Tags = userTagsInfo.Tags, // Add the tags list to the DTO
+            Tags = userTagsInfo.Tags,
             AccessToken = tokenResponse.AccessToken, // Changed from Token to AccessToken
             RefreshToken = tokenResponse.RefreshToken, // Added RefreshToken
-            ExpiresIn = tokenResponse.ExpiresIn // Added ExpiresIn
+            RefreshTokenExpiresAt = tokenResponse.RefreshTokenExpiresAt // Added ExpiresAt
         };
     }
 
@@ -160,10 +159,9 @@ public class AuthService
         // Generate new tokens
         var userName = $"{user.FirstName} {user.LastName}";
         var tokenResponse = _tokenService.GenerateTokens(userId, userName, user.Role.ToString());
-
-        // Update refresh token in database
-        var refreshTokenExpiryTime = DateTime.UtcNow.AddMinutes(1); // 7 days expiry
-        await _userRepository.SetRefreshTokenAsync(user, tokenResponse.RefreshToken, refreshTokenExpiryTime);
+        
+        // Save new refresh token in the database
+        await _userRepository.SetRefreshTokenAsync(user, tokenResponse.RefreshToken, tokenResponse.RefreshTokenExpiresAt);
 
         return tokenResponse;
     }

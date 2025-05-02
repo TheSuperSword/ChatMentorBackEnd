@@ -28,7 +28,7 @@ public class LoginResponseDto
     public List<TagDto> Tags { get; set; } = new();
     public string? AccessToken { get; set; } // Changed from Token to AccessToken
     public string? RefreshToken { get; set; } // Added for refresh token flow
-    public int ExpiresIn { get; set; } // Token expiration in seconds
+    public DateTime  RefreshTokenExpiresAt { get; set; } 
 }
 
 public class LoginUserDto
@@ -39,9 +39,9 @@ public class LoginUserDto
 
 public class TokenResponse
 {
-    public string AccessToken { get; set; } = string.Empty;
-    public string RefreshToken { get; set; } = string.Empty;
-    public int ExpiresIn { get; set; } // Token expiration in seconds
+    public string AccessToken { get; set; }
+    public string RefreshToken { get; set; }
+    public DateTime  RefreshTokenExpiresAt { get; set; }
 }
 
 public class RefreshTokenRequest
