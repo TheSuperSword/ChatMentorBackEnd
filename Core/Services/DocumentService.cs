@@ -44,14 +44,14 @@ public class DocumentService
         // Ensure subdirectories exist
         EnsureDirectoryExists("profile_pics");
         EnsureDirectoryExists("documents");
+        EnsureDirectoryExists("chats");
+        EnsureDirectoryExists("knowledge_base");
     }
 
-    public async Task<Document?> UploadDocumentAsync(IFormFile file, Guid uploadedBy, string associatedEntity,
-        Guid? relatedEntityId = null)
+    public async Task<Document?> UploadDocumentAsync(IFormFile file, Guid uploadedBy, string associatedEntity, Guid? relatedEntityId = null)
     {
         if (file is not { Length: > 0 }) throw new ArgumentException("Invalid file.");
-        if (string.IsNullOrWhiteSpace(associatedEntity))
-            throw new ArgumentException("Associated entity cannot be null or empty.");
+        if (string.IsNullOrWhiteSpace(associatedEntity)) throw new ArgumentException("Associated entity cannot be null or empty.");
 
         // Ensure upload folder exists
         var uploadFolderPath = EnsureDirectoryExists(associatedEntity);
@@ -99,6 +99,42 @@ public class DocumentService
                     _logger.LogWarning("Failed to delete file {FilePath} after upload error", filePath);
                 }
 
+            throw;
+        }
+    }
+    
+    public async Task<(string filePath, string fileName, string contentType)> PrepareFileForDownloadAsync(string docGuid)
+    {
+        if (!Guid.TryParse(docGuid, out _))
+            throw new ArgumentException("Invalid GUID format.");
+
+        var document = await _documentRepository.GetDocumentByGuidAsync(docGuid);
+        if (document == null)
+        {
+            _logger.LogWarning("Document with GUID {DocGuid} not found for download.", docGuid);
+            throw new FileNotFoundException($"Document with ID {docGuid} not found.");
+        }
+
+        try
+        {
+            // Resolve the file path
+            if (string.IsNullOrEmpty(document.FilePath))
+                throw new InvalidOperationException($"Document with ID {docGuid} has no associated file path.");
+
+            var absoluteFilePath = ResolveAbsolutePath(document.FilePath);
+        
+            if (!File.Exists(absoluteFilePath))
+            {
+                _logger.LogWarning("File for document {DocGuid} not found at path {FilePath}", docGuid, absoluteFilePath);
+                throw new FileNotFoundException($"File for document with ID {docGuid} not found.");
+            }
+
+            // Return the file information needed for download
+            return (absoluteFilePath, document.FileName, document.ContentType);
+        }
+        catch (Exception ex) when (ex is not FileNotFoundException && ex is not InvalidOperationException)
+        {
+            _logger.LogError(ex, "An error occurred while preparing document with GUID {DocGuid} for download.", docGuid);
             throw;
         }
     }

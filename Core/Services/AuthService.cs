@@ -56,7 +56,7 @@ public class AuthService
             PasswordHash = hashedPassword,
             Headline = dto.Headline,
             Bio = dto.Bio,
-            ProfilePictureUrl = "/uploads/profile_pics/default.png",
+            ProfilePictureUrl = $"https://ui-avatars.com/api/?name={dto.FirstName}+{dto.LastName}&size=200",
             Role = dto.Role ?? UserRole.Student // Default to Student if not provided
         };
         // Save user to the database

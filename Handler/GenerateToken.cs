@@ -39,7 +39,7 @@ public class TokenService
 
         var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256);
 
-        if (!int.TryParse(_configuration["Jwt:ExpiresInMinutes"],
+        if (!int.TryParse(_configuration["Jwt:AccessTokenExpiresInMinutes"],
                 out var expiresInMinutes)) expiresInMinutes = 15; // Default to 60 minutes if parsing fails
 
         var token = new JwtSecurityToken(
@@ -58,16 +58,13 @@ public class TokenService
     {
         var accessToken = GenerateToken(userId, username, userRole);
         var refreshToken = GenerateRefreshToken();
-
-        // Get token expiry in seconds
-        if (!int.TryParse(_configuration["Jwt:ExpiresInMinutes"],
-                out var expiresInMinutes)) expiresInMinutes = 60; // Default to 60 minutes
-
+        var refreshTokenExpiresAt = DateTime.UtcNow.AddDays(double.Parse(_configuration["Jwt:RefreshTokenExpiresInDays"] ?? "7")); // Default to 7 days
+        
         return new TokenResponse
         {
             AccessToken = accessToken,
             RefreshToken = refreshToken,
-            ExpiresIn = expiresInMinutes * 60 // Convert minutes to seconds for client
+            RefreshTokenExpiresAt = refreshTokenExpiresAt,
         };
     }
 

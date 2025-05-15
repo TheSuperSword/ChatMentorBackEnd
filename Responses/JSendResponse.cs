@@ -42,3 +42,17 @@ public class PaginationMeta(int currentPage, int pageSize, int totalRecords)
     public int TotalRecords { get; set; } = totalRecords;
     public int TotalPages { get; set; } = (int)Math.Ceiling(totalRecords / (double)pageSize);
 }
+
+// This class extends PaginationMeta to add cursor-based pagination properties
+public class CursorPaginationMeta : PaginationMeta
+{
+    public Guid? NextCursor { get; set; }
+    public bool HasMore { get; set; }
+
+    public CursorPaginationMeta(int currentPage, int pageSize, int totalRecords, Guid? nextCursor, bool hasMore) 
+        : base(currentPage, pageSize, totalRecords)
+    {
+        NextCursor = nextCursor;
+        HasMore = hasMore;
+    }
+}

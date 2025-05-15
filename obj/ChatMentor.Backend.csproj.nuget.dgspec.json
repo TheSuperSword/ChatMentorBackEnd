@@ -50,6 +50,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Azure.AI.OpenAI": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "Azure.Core": {
+              "target": "Package",
+              "version": "[1.45.0, )"
+            },
             "BCrypt.Net-Next": {
               "target": "Package",
               "version": "[4.0.3, )"
@@ -57,6 +65,10 @@
             "DinkToPdf": {
               "target": "Package",
               "version": "[1.0.8, )"
+            },
+            "DocumentFormat.OpenXml": {
+              "target": "Package",
+              "version": "[3.3.0, )"
             },
             "HtmlToPdfConverter.Core": {
               "target": "Package",
@@ -134,6 +146,22 @@
               "target": "Package",
               "version": "[8.6.1, )"
             },
+            "Microsoft.ML.Tokenizers": {
+              "target": "Package",
+              "version": "[1.0.2, )"
+            },
+            "Microsoft.Office.Interop.PowerPoint": {
+              "target": "Package",
+              "version": "[15.0.4420.1018, )"
+            },
+            "Microsoft.Office.Interop.Word": {
+              "target": "Package",
+              "version": "[15.0.4797.1004, )"
+            },
+            "Microsoft.TestPlatform.TestHost": {
+              "target": "Package",
+              "version": "[17.8.0, )"
+            },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[8.0.7, )"
@@ -153,6 +181,10 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
+            },
+            "PDFsharp": {
+              "target": "Package",
+              "version": "[6.1.1, )"
             },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",

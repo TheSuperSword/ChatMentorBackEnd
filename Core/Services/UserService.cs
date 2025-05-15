@@ -38,7 +38,7 @@ public class UserService
         };
     }
 
-    // Retrievers - Updated to use async version of MapToDto
+    // Retrievers - Updated to use an async version of MapToDto
     public async Task<UserDto?> GetUserByIdAsync(int id)
     {
         var user = await _userRepository.GetUserByIdAsync(id);
@@ -76,36 +76,36 @@ public class UserService
     }
 
     // Updaters
-    public async Task<bool> UpdateUserProfileAsync(string userGuid, UpdateUserDto dto)
+    public async Task<UserDto?> UpdateUserProfileAsync(string userGuid, UpdateUserDto dto)
     {
         var user = await _userRepository.GetUserByGuidAsync(userGuid);
-        if (user is null) return false; // User not found
-
+        if (user is null) return null; // User not found
+        
         // Check if email is being updated
         if (!string.IsNullOrWhiteSpace(dto.Email) && dto.Email != user.Email)
         {
             // Validate email format
             if (!new EmailAddressAttribute().IsValid(dto.Email))
                 throw new ArgumentException("Invalid email format.");
-
+    
             // Ensure email is not already in use
             var isEmailTaken = await _userRepository.IsEmailInUseAsync(dto.Email);
             if (isEmailTaken) throw new InvalidOperationException("Email is already in use.");
-
+    
             user.Email = dto.Email; // Set new email
         }
-
+    
         // Update other fields only if provided
         user.FirstName = dto.FirstName ?? user.FirstName;
         user.LastName = dto.LastName ?? user.LastName;
         user.Headline = dto.Headline ?? user.Headline;
         user.Bio = dto.Bio ?? user.Bio;
-
+    
         // If role update is allowed
         if (dto.Role is not null) user.Role = dto.Role.Value;
         await _userRepository.UpdateUserAsync(user);
-
-        return true;
+    
+        return await MapToDtoAsync(user);
     }
 
     // Validators
